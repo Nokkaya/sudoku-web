@@ -1,12 +1,13 @@
 <!--index.wxml-->
 <view class="container">
-  <view class="logo">
-    <text class="title">数独大师</text>
-    <text class="subtitle">挑战你的逻辑思维</text>
+  <view class="logo-section">
+    <image class="logo" src="/images/logo.svg" mode="aspectFit"></image>
+    <text class="title">SUDOKU</text>
+    <text class="subtitle">数独大师</text>
   </view>
 
-  <view class="mode-select">
-    <text class="section-title">选择难度</text>
+  <view class="mode-section">
+    <text class="section-label">选择难度</text>
     <view class="mode-list">
       <view 
         wx:for="{{modes}}" 
@@ -15,10 +16,17 @@
         bindtap="selectMode"
         data-index="{{index}}"
       >
-        <text>{{item.name}}</text>
+        <view class="mode-indicator" wx:if="{{selectedMode === index}}"></view>
+        <text class="mode-name">{{item.name}}</text>
+        <text class="mode-desc" wx:if="{{selectedMode === index}}">{{item.holes}}个空格</text>
       </view>
     </view>
   </view>
 
-  <button class="start-btn" bindtap="startGame">开始游戏</button>
+  <view class="action-section">
+    <view class="start-btn" bindtap="startGame">
+      <text>开始游戏</text>
+      <view class="btn-arrow"></view>
+    </view>
+  </view>
 </view>

@@ -162,7 +162,7 @@ Page({
       const timeStr = `${minutes}分${seconds}秒`;
 
       wx.showModal({
-        title: '🎉 恭喜通关！',
+        title: '恭喜通关',
         content: `用时：${timeStr}\n提示剩余：${this.data.hints}次`,
         showCancel: false,
         confirmText: '再玩一局',

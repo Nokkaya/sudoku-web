@@ -2,14 +2,22 @@
 <view class="container">
   <!-- 顶部信息栏 -->
   <view class="header">
-    <view class="mode-tag">{{modeName}}</view>
-    <view class="timer">{{formatTime(timer)}}</view>
-    <view class="hints">💡 {{hints}}次</view>
+    <view class="header-left">
+      <text class="mode-tag">{{modeName}}</text>
+    </view>
+    <view class="header-center">
+      <view class="timer-icon"></view>
+      <text class="timer">{{formatTime(timer)}}</text>
+    </view>
+    <view class="header-right">
+      <text class="hint-count">{{hints}}</text>
+      <view class="hint-icon"></view>
+    </view>
   </view>
 
   <!-- 数独棋盘 -->
-  <view class="board">
-    <view class="board-inner">
+  <view class="board-container">
+    <view class="board">
       <!-- 3x3 大宫格边框 -->
       <view class="grid-borders">
         <view class="border-h border-h-1"></view>
@@ -40,23 +48,23 @@
 
   <!-- 数字键盘 -->
   <view class="number-pad" wx:if="{{!isComplete}}">
-    <view 
-      wx:for="{{nums}}" 
-      wx:key="*this" 
-      class="num-btn"
-      bindtap="inputNumber"
-      data-num="{{item}}"
-    >
-      {{item}}
+    <view wx:for="{{nums}}" wx:key="*this" class="num-btn" bindtap="inputNumber" data-num="{{item}}">
+      <text>{{item}}</text>
     </view>
-    <view class="num-btn clear-btn" bindtap="clearCell">⌫</view>
+    <view class="num-btn clear-btn" bindtap="clearCell">
+      <view class="clear-icon"></view>
+    </view>
   </view>
 
   <!-- 功能按钮 -->
-  <view class="actions">
-    <button class="action-btn hint-btn" bindtap="useHint" wx:if="{{!isComplete}}">
-      💡 提示
-    </button>
-    <button class="action-btn restart-btn" bindtap="restart">🔄 重来</button>
+  <view class="actions" wx:if="{{!isComplete}}">
+    <view class="action-btn" bindtap="useHint">
+      <view class="hint-btn-icon"></view>
+      <text>提示</text>
+    </view>
+    <view class="action-btn" bindtap="restart">
+      <view class="restart-icon"></view>
+      <text>重来</text>
+    </view>
   </view>
 </view>
