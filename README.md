@@ -1,6 +1,6 @@
 # Sudoku Master - WeChat Mini Program
 
-A minimalist Sudoku game built with WeChat Mini Program, featuring complete Sudoku algorithm, three difficulty levels, and smart hints.
+A vibrant and refreshing Sudoku game built with WeChat Mini Program, featuring complete Sudoku algorithm, three difficulty levels, and smart hints.
 
 ![Sudoku Master](https://img.shields.io/badge/WeChat_Mini_Program-Sudoku-blue?style=for-the-badge&logo=wechat)
 ![GitHub stars](https://img.shields.io/github/stars/Nokkaya/sudoku-wechat?style=for-the-badge)
@@ -16,10 +16,10 @@ A minimalist Sudoku game built with WeChat Mini Program, featuring complete Sudo
 - **Real-time Validation** - Check number validity instantly
 
 ### Design Philosophy
-- **Minimalist Aesthetic** - Pure white background, clean and elegant
-- **Monochrome Palette** - Black board with white numbers, timeless sophistication
-- **Refined Typography** - Carefully selected fonts and letter spacing
-- **Thoughtful Spacing** - Generous white space for visual breathing room
+- **Vibrant Palette** - Refreshing blue and green color scheme
+- **Vibrant Energy** - Dynamic gradient buttons with youthful spirit
+- **Soft Contrast** - Deep charcoal board with fresh green highlights
+- **Clean Background** - Subtle light gray for comfortable gaming
 
 ### User Experience
 - **Smooth Animations** - Fluid transitions for all interactions
@@ -93,25 +93,30 @@ Fill all cells with numbers that follow Sudoku rules:
 - Each column contains 1-9 exactly once
 - Each 3x3 box contains 1-9 exactly once
 
-## 🎨 Design Highlights
+## 🎨 Design System
 
-### Visual Identity
-The design embraces a "less is more" philosophy with:
-- **Pure white canvas** - Distraction-free gaming environment
-- **Bold black accents** - High-contrast elements for clarity
-- **Subtle gray tones** - Sophisticated hierarchy and depth
-- **SVG vector graphics** - Crisp icons at any resolution
+### Color Palette
 
-### Interface Elements
-- **Number Board**: Black background with white numerical display
-- **Input Keypad**: Clean, pressable buttons with subtle shadows
-- **Action Buttons**: Minimalist icons with refined typography
-- **Timer Display**: Monospace font for precise timing feel
+| Color | Hex Code | Usage |
+|-------|----------|-------|
+| Vibrant Blue | `#0066FF` | Primary buttons, selection, active states |
+| Fresh Green | `#00D68F` | User numbers, indicators, success states |
+| Charcoal | `#2D3436` | Game board background |
+| Light Gray | `#F8F9FA` | Page background |
+| Pure White | `#FFFFFF` | Cards, containers |
+| Soft Red | `#FFE8E8` | Erase button background |
 
-### Interaction Design
-- **Selection Highlights** - Connected row, column, and box highlight
-- **Touch Feedback** - Visual response on button presses
-- **Smooth Transitions** - Animated state changes throughout
+### Design Philosophy
+- **Refreshment** - Blue-green gradient brings youthful energy
+- **Contrast** - Deep charcoal board with fresh green highlights
+- **Comfort** - Light gray background reduces eye strain
+- **Clarity** - Bold typography with generous spacing
+
+### Visual Highlights
+- **Start Button** - Dynamic blue-to-green gradient with shadow
+- **Game Board** - Warm charcoal with clear white grid lines
+- **User Numbers** - Vibrant green for instant visual distinction
+- **Erase Button** - Soft red background for clear differentiation
 
 ## 🛠 Tech Stack
 
@@ -131,6 +136,14 @@ Contributions are welcome! Please follow these steps:
 5. Open a Pull Request
 
 ## 📝 Changelog
+
+### v1.2.0 (2026-01-28)
+- **Color Refresh** - Vibrant blue and green color scheme
+- **Dynamic Gradient** - Blue-to-green gradient on primary button
+- **Enhanced Board** - Warm charcoal instead of stark black
+- **Fresh Highlights** - Green accent for user-inputted numbers
+- **Comfortable Background** - Light gray #F8F9FA instead of pure white
+- **Soft Interactions** - Subtle shadows and smooth transitions
 
 ### v1.1.0 (2026-01-28)
 - **UI Redesign** - Complete minimalist redesign
