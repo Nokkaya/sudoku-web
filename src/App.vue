@@ -141,12 +141,22 @@
         <!-- 功能按钮 -->
         <div class="actions" v-if="!isComplete">
           <button class="action-btn" @click="useHint">
-            <span class="hint-icon"></span>
+            <span class="hint-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 18h6"/>
+                <path d="M10 22h4"/>
+                <path d="M12 2v1"/>
+                <path d="M12 7a5 5 0 1 0-4 4.67"/>
+              </svg>
+            </span>
             提示
           </button>
           <button class="action-btn" @click="restart">
             <span class="restart-icon">
-              <span class="restart-arrow"></span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                <path d="M3 3v5h5"/>
+              </svg>
             </span>
             重来
           </button>
@@ -1007,43 +1017,31 @@ onUnmounted(() => {
 }
 
 .hint-icon {
-  width: 24px;
-  height: 24px;
-  border: 3px solid #00b894;
-  border-radius: 50%;
-  position: relative;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.hint-icon::after {
-  content: '';
-  position: absolute;
-  bottom: -6px;
-  right: 4px;
-  width: 3px;
-  height: 10px;
-  background: #00b894;
-  border-radius: 2px;
+.hint-icon svg {
+  width: 100%;
+  height: 100%;
+  color: #00b894;
 }
 
 .restart-icon {
   width: 22px;
   height: 22px;
-  border: 3px solid #2d3436;
-  border-top-color: transparent;
-  border-right-color: transparent;
-  border-radius: 50%;
-  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.restart-arrow {
-  position: absolute;
-  top: 2px;
-  right: 4px;
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 7px solid #2d3436;
+.restart-icon svg {
+  width: 100%;
+  height: 100%;
+  color: #2d3436;
 }
 
 /* 完成弹窗 */
