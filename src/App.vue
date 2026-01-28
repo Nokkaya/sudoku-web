@@ -46,7 +46,7 @@
               @click="selectedMode = index"
             >
               <div class="mode-icon">
-                <span class="dot" v-for="n in 3" :key="n" :class="{ active: index >= 3-n }"></span>
+                <span class="dot" v-for="n in mode.dots" :key="n"></span>
               </div>
               <div class="mode-info">
                 <span class="mode-name">{{ mode.name }}</span>
@@ -181,14 +181,16 @@ import sudoku from './utils/sudoku.js'
 
 // 模式定义
 const modes = [
-  { id: 'easy', name: '简单', holes: 30 },
-  { id: 'medium', name: '中等', holes: 40 },
-  { id: 'hard', name: '困难', holes: 50 }
+  { id: 'easy-plus', name: '简单+', holes: 25, dots: 1 },
+  { id: 'easy', name: '简单', holes: 35, dots: 2 },
+  { id: 'medium', name: '中等', holes: 45, dots: 3 },
+  { id: 'hard', name: '困难', holes: 55, dots: 4 },
+  { id: 'hard-plus', name: '困难+', holes: 65, dots: 5 }
 ]
 
 // 响应式状态
 const gameStarted = ref(false)
-const selectedMode = ref(1)
+const selectedMode = ref(2)
 const board = ref([])
 const originalBoard = ref([])
 const solution = ref([])
