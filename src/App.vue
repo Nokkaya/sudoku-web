@@ -571,13 +571,9 @@ onUnmounted(() => {
   width: 20px;
   height: 20px;
   border: 2px solid #faf9f7;
-  border-top-color: transparent;
+  border-bottom-color: transparent;
   border-radius: 50%;
-  animation: rotate 1.5s linear infinite;
-}
-
-@keyframes rotate {
-  to { transform: rotate(360deg); }
+  margin-right: 8px;
 }
 
 .timer {
@@ -670,8 +666,26 @@ onUnmounted(() => {
   transition: all 0.2s ease;
 }
 
-.cell:nth-child(9) { border-right: none; }
-.row:nth-child(9) .cell { border-bottom: none; }
+.cell:nth-child(9) { 
+  border-right: none; 
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.cell:last-child { 
+  border-right: none;
+}
+.row:last-child .cell {
+  border-bottom: none;
+}
+
+.row:last-child .cell:first-child {
+  border-bottom-left-radius: 0;
+}
+
+.row:last-child .cell:last-child {
+  border-bottom-right-radius: 0;
+}
 
 .cell:nth-child(3n) { border-right: 2px solid #faf9f7; }
 .row:nth-child(3n) .cell { border-bottom: 2px solid #faf9f7; }
