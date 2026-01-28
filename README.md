@@ -1,153 +1,168 @@
-# 🎮 数独大师 - 微信小程序
+# Sudoku Master - WeChat Mini Program
 
-一个精美的数独游戏微信小程序，包含完整的数独算法、三种难度模式和智能提示功能。
+A minimalist Sudoku game built with WeChat Mini Program, featuring complete Sudoku algorithm, three difficulty levels, and smart hints.
 
-![数独大师](https://img.shields.io/badge/微信小程序-数独-blue?style=for-the-badge&logo=wechat)
+![Sudoku Master](https://img.shields.io/badge/WeChat_Mini_Program-Sudoku-blue?style=for-the-badge&logo=wechat)
 ![GitHub stars](https://img.shields.io/github/stars/Nokkaya/sudoku-wechat?style=for-the-badge)
 ![GitHub license](https://img.shields.io/github/license/Nokkaya/sudoku-wechat?style=for-the-badge)
 
-## ✨ 功能特性
+## ✨ Features
 
-### 🎯 核心功能
-- **智能数独算法** - 自动生成有效数独题目，确保唯一解
-- **三种难度** - 简单(30个空)、中等(40个空)、困难(50个空)
-- **提示系统** - 每局3次提示机会，帮你突破难关
-- **计时功能** - 精确记录通关用时，挑战最快速度
-- **实时验证** - 自动检查数字有效性，及时发现错误
+### Core Functionality
+- **Smart Sudoku Algorithm** - Auto-generate valid puzzles with unique solutions
+- **Three Difficulty Levels** - Easy (30 holes), Medium (40 holes), Hard (50 holes)
+- **Hint System** - 3 hints per game to help you progress
+- **Timer** - Precisely track your completion time
+- **Real-time Validation** - Check number validity instantly
 
-### 🎨 界面设计
-- **渐变背景** - 紫色系渐变，视觉效果出色
-- **流畅动画** - 数字输入、选中高亮都有流畅动画
-- **智能高亮** - 选中格子时，行、列、宫格联动高亮
-- **响应式布局** - 适配各种屏幕尺寸
+### Design Philosophy
+- **Minimalist Aesthetic** - Pure white background, clean and elegant
+- **Monochrome Palette** - Black board with white numbers, timeless sophistication
+- **Refined Typography** - Carefully selected fonts and letter spacing
+- **Thoughtful Spacing** - Generous white space for visual breathing room
 
-### 🎮 游戏体验
-- **输入便捷** - 虚拟数字键盘，支持快速输入
-- **橡皮擦功能** - 快速清除填错的数字
-- **重新开始** - 一键重新开始当前局
-- **通关奖励** - 完成后显示用时和统计
+### User Experience
+- **Smooth Animations** - Fluid transitions for all interactions
+- **Smart Highlighting** - Row, column, and box联动 highlight on cell selection
+- **Responsive Layout** - Adapt to various screen sizes
+- **Intuitive Controls** - Virtual number pad for quick input
 
-## 🚀 快速开始
+## 🚀 Quick Start
 
-### 环境要求
-- 微信开发者工具 (最新版本)
-- 微信基础库 2.19.0+ (建议)
+### Requirements
+- WeChat Developer Tools (latest version)
+- WeChat Base Library 2.19.0+ (recommended)
 
-### 安装步骤
+### Installation
 
-1. **克隆项目**
+1. **Clone the repository**
    ```bash
    git clone https://github.com/Nokkaya/sudoku-wechat.git
    cd sudoku-wechat
    ```
 
-2. **导入项目**
-   - 打开微信开发者工具
-   - 点击"+"号添加项目
-   - 选择 `sudoku-wechat` 文件夹
-   - 点击"导入"
+2. **Import in WeChat DevTools**
+   - Open WeChat Developer Tools
+   - Click "+" to add a new project
+   - Select the `sudoku-wechat` folder
+   - Click "Import"
 
-3. **编译运行**
-   - 点击微信开发者工具右上角的"编译"按钮
-   - 在手机模拟器或真机上预览
+3. **Build and Run**
+   - Click the "Compile" button in WeChat DevTools
+   - Preview in simulator or real device
 
-## 📁 项目结构
+## 📁 Project Structure
 
 ```
 sudoku-wechat/
-├── app.js              # 应用入口文件
-├── app.json            # 应用配置文件
-├── project.config.json # 微信开发者工具配置
+├── app.js              # App entry file
+├── app.json            # App configuration
+├── project.config.json # WeChat DevTools configuration
+├── images/
+│   └── logo.svg        # SVG brand logo
 ├── utils/
-│   └── sudoku.js       # 数独核心算法库
+│   └── sudoku.js       # Core Sudoku algorithm
 └── pages/
-    ├── index/          # 首页模块
-    │   ├── index.js    # 首页逻辑
-    │   ├── index.wxml  # 首页模板
-    │   └── index.wxss  # 首页样式
-    └── game/           # 游戏模块
-        ├── game.js     # 游戏逻辑
-        ├── game.wxml   # 游戏模板
-        └── game.wxss   # 游戏样式
+    ├── index/          # Home page module
+    │   ├── index.js    # Home page logic
+    │   ├── index.wxml  # Home page template
+    │   └── index.wxss  # Home page styles
+    └── game/           # Game page module
+        ├── game.js     # Game logic
+        ├── game.wxml   # Game template
+        └── game.wxss   # Game styles
 ```
 
-## 🎮 使用说明
+## 🎮 How to Play
 
-### 选择难度
-1. 打开小程序后，看到三个难度选项
-2. 点击选择难度（简单/中等/困难）
-3. 点击"开始游戏"进入游戏
+### Select Difficulty
+1. Open the mini program
+2. Choose your difficulty (Easy / Medium / Hard)
+3. Tap "Start Game" to begin
 
-### 游戏操作
-- **选择格子**：点击任意空格选中
-- **输入数字**：点击底部数字键盘输入
-- **删除数字**：点击橡皮擦图标或选择格子后输入0
-- **获取提示**：点击"💡 提示"按钮填写当前格子
-- **重新开始**：点击"🔄 重来"按钮重新开局
+### Game Controls
+- **Select Cell**: Tap any empty cell to select
+- **Input Number**: Tap numbers on the bottom keypad
+- **Clear Cell**: Use the erase button to remove numbers
+- **Get Hint**: Tap "Hint" to fill the current cell
+- **Restart**: Tap "Restart" to start a new game
 
-### 胜利条件
-填满所有空格，且所有数字符合数独规则：
-- 每行 1-9 各出现一次
-- 每列 1-9 各出现一次
-- 每个 3x3 宫格 1-9 各出现一次
+### Winning Conditions
+Fill all cells with numbers that follow Sudoku rules:
+- Each row contains 1-9 exactly once
+- Each column contains 1-9 exactly once
+- Each 3x3 box contains 1-9 exactly once
 
-## 🛠 技术栈
+## 🎨 Design Highlights
 
-- **前端框架**：微信小程序原生开发
-- **算法核心**：回溯算法生成数独
-- **样式语言**：WXML + WXSS
-- **逻辑处理**：JavaScript
+### Visual Identity
+The design embraces a "less is more" philosophy with:
+- **Pure white canvas** - Distraction-free gaming environment
+- **Bold black accents** - High-contrast elements for clarity
+- **Subtle gray tones** - Sophisticated hierarchy and depth
+- **SVG vector graphics** - Crisp icons at any resolution
 
-## 📱 截图预览
+### Interface Elements
+- **Number Board**: Black background with white numerical display
+- **Input Keypad**: Clean, pressable buttons with subtle shadows
+- **Action Buttons**: Minimalist icons with refined typography
+- **Timer Display**: Monospace font for precise timing feel
 
-### 首页
-- 渐变背景配紫色调
-- 大字标题"数独大师"
-- 三个难度选项卡片
-- 醒目的"开始游戏"按钮
+### Interaction Design
+- **Selection Highlights** - Connected row, column, and box highlight
+- **Touch Feedback** - Visual response on button presses
+- **Smooth Transitions** - Animated state changes throughout
 
-### 游戏界面
-- 顶部显示难度、计时器、提示次数
-- 9x9 数独棋盘（带3x3宫格边框）
-- 底部数字键盘（1-9）
-- 功能按钮（提示、重来）
+## 🛠 Tech Stack
 
-## 🤝 贡献指南
+- **Framework**: WeChat Mini Program (Native)
+- **Algorithm**: Backtracking algorithm for puzzle generation
+- **Styles**: WXML + WXSS
+- **Logic**: JavaScript (ES6+)
 
-欢迎贡献代码！请遵循以下步骤：
+## 🤝 Contributing
 
-1. Fork 本项目
-2. 创建你的特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交你的更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 发起 Pull Request
+Contributions are welcome! Please follow these steps:
 
-## 📝 更新日志
+1. Fork this project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📝 Changelog
+
+### v1.1.0 (2026-01-28)
+- **UI Redesign** - Complete minimalist redesign
+- **Removed** - All gradient backgrounds, emoji icons
+- **Added** - SVG vector logo, pure CSS icons
+- **Improved** - Black and white color scheme
+- **Enhanced** - Typography and spacing
 
 ### v1.0.0 (2026-01-28)
-- ✨ 初始版本发布
-- ✅ 完整的数独游戏功能
-- ✅ 三种难度模式
-- ✅ 提示系统
-- ✅ 计时功能
-- ✅ 精美的UI设计
+- Initial release
+- Complete Sudoku game functionality
+- Three difficulty modes
+- Hint system
+- Timer functionality
+- Beautiful UI design
 
-## 📄 许可证
+## 📄 License
 
-本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 致谢
+## 🙏 Acknowledgments
 
-- 感谢微信小程序官方文档
-- 数独算法参考经典回溯法实现
+- WeChat Mini Program Documentation
+- Classic backtracking algorithm for Sudoku generation
 
-## 📧 联系作者
+## 📧 Contact
 
 - **GitHub**: [@Nokkaya](https://github.com/Nokkaya)
-- **仓库**: [sudoku-wechat](https://github.com/Nokkaya/sudoku-wechat)
+- **Repository**: [sudoku-wechat](https://github.com/Nokkaya/sudoku-wechat)
 
 ---
 
-**祝你游戏愉快！🎉**
+**Enjoy the game!**
 
-*挑战逻辑思维，享受数独魅力！*
+*Challenge your logic, master the grid.*
