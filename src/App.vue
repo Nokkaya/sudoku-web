@@ -59,7 +59,7 @@
           
           <div class="header-center">
             <div class="timer-wrapper">
-              <span class="timer-icon"></span>
+              
               <span class="timer">{{ formatTime(timer) }}</span>
             </div>
           </div>
@@ -666,7 +666,8 @@ onUnmounted(() => {
   transition: all 0.2s ease;
 }
 
-.cell:nth-child(9) { 
+
+.cell:last-child { 
   border-right: none; 
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
