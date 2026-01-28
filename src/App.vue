@@ -372,7 +372,7 @@ onUnmounted(() => {
 
 .home, .game {
   min-height: 100vh;
-  padding: 60px 24px;
+  padding: 40px 20px;
 }
 
 .container {
@@ -383,13 +383,13 @@ onUnmounted(() => {
 /* 首页样式 */
 .logo-section {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 32px;
 }
 
 .logo-wrapper {
   display: inline-block;
   position: relative;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 .logo-bg {
@@ -445,7 +445,7 @@ onUnmounted(() => {
 }
 
 .mode-section {
-  margin-bottom: 40px;
+  margin-bottom: 24px;
 }
 
 .mode-list {
@@ -478,6 +478,8 @@ onUnmounted(() => {
   display: flex;
   gap: 3px;
   margin-right: 12px;
+  width: 40px;
+  align-items: center;
 }
 
 .mode-icon .dot {
@@ -534,15 +536,15 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 20px;
+  padding: 16px 20px;
   background: #2d3436;
   color: #ffffff;
   border: none;
-  border-radius: 32px;
-  font-size: 18px;
+  border-radius: 24px;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 8px 24rpx rgba(45, 52, 54, 0.25);
+  box-shadow: 0 4px 16rpx rgba(45, 52, 54, 0.25);
   transition: all 0.2s ease;
 }
 
