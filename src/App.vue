@@ -51,20 +51,21 @@
     <!-- 游戏视图 -->
     <div v-else class="game">
       <div class="container">
+        <!-- 返回按钮 -->
+        <button class="back-btn-float" @click="confirmExit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+        </button>
+        
         <!-- 顶部信息栏 -->
         <div class="header">
           <div class="header-left">
-            <button class="back-btn" @click="confirmExit">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M19 12H5M12 19l-7-7 7-7"/>
-              </svg>
-            </button>
             <span class="mode-tag">{{ currentModeName }}</span>
           </div>
           
           <div class="header-center">
             <div class="timer-wrapper">
-              
               <span class="timer">{{ formatTime(timer) }}</span>
             </div>
           </div>
@@ -586,6 +587,35 @@ onUnmounted(() => {
   transition: all 0.2s ease;
 }
 
+.back-btn-float {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: #ffffff;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+.back-btn-float svg {
+  width: 24px;
+  height: 24px;
+  color: #2d3436;
+}
+
+.back-btn-float:hover {
+  background: #dfe6e9;
+  transform: scale(1.05);
+}
+
 .back-btn svg {
   width: 20px;
   height: 20px;
@@ -704,11 +734,11 @@ onUnmounted(() => {
   transition: all 0.2s ease;
 }
 
-.cell:last-child {
+.cell:last-of-type {
   border-right: none;
 }
 
-.row:last-child .cell {
+.row:last-of-type .cell {
   border-bottom: none;
 }
 
@@ -716,8 +746,16 @@ onUnmounted(() => {
   border-right: 2px solid #faf9f7;
 }
 
+.cell:last-of-type {
+  border-right: none;
+}
+
 .row:nth-child(3n) .cell {
   border-bottom: 2px solid #faf9f7;
+}
+
+.row:last-of-type .cell {
+  border-bottom: none;
 }
 
 .cell.original {
