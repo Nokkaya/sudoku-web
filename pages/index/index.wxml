@@ -1,61 +1,49 @@
 <!--index.wxml-->
-<view class="page">
-  <!-- 装饰性背景元素 -->
-  <view class="bg-decoration">
-    <view class="deco-circle deco-1"></view>
-    <view class="deco-circle deco-2"></view>
-    <view class="deco-line deco-1"></view>
-    <view class="deco-line deco-2"></view>
-    <view class="deco-dots"></view>
+<view class="container">
+  <!-- 顶部Logo -->
+  <view class="logo-section">
+    <view class="logo-wrapper">
+      <view class="logo-bg">
+        <text class="logo-number">9</text>
+      </view>
+      <view class="logo-accent"></view>
+    </view>
+    <text class="title">SUDOKU</text>
+    <text class="subtitle">数独大师</text>
   </view>
 
-  <!-- 主视觉区域 -->
-  <view class="hero">
-    <view class="hero-number">9</view>
-    <view class="hero-grid">
-      <view class="grid-cell"></view><view class="grid-cell"></view><view class="grid-cell"></view>
-      <view class="grid-cell"></view><view class="grid-cell filled"></view><view class="grid-cell"></view>
-      <view class="grid-cell"></view><view class="grid-cell"></view><view class="grid-cell"></view>
-    </view>
-    <view class="hero-title-group">
-      <text class="hero-title">SUDOKU</text>
-      <text class="hero-subtitle">逻辑的诗篇</text>
-    </view>
-  </view>
-
-  <!-- 难度选择区 -->
-  <view class="difficulty-section">
-    <text class="section-label">选择你的挑战</text>
-    <view class="difficulty-list">
+  <!-- 难度选择 -->
+  <view class="mode-section">
+    <text class="section-label">选择难度</text>
+    <view class="mode-list">
       <view 
         wx:for="{{modes}}" 
         wx:key="id" 
-        class="diff-card {{selectedMode === index ? 'active' : ''}}"
+        class="mode-item {{selectedMode === index ? 'active' : ''}}"
         bindtap="selectMode"
         data-index="{{index}}"
       >
-        <view class="diff-card-inner">
-          <view class="diff-icon">
-            <text wx:if="{{item.id === 'easy'}}">◆</text>
-            <text wx:if="{{item.id === 'medium'}}">◆◆</text>
-            <text wx:if="{{item.id === 'hard'}}">◆◆◆</text>
-          </view>
-          <text class="diff-name">{{item.name}}</text>
-          <text class="diff-meta">{{item.holes}}空格待解</text>
-          <view class="diff-accent" wx:if="{{selectedMode === index}}"></view>
+        <view class="mode-icon">
+          <view class="mode-icon-dot"></view>
+          <view class="mode-icon-dot"></view>
+          <view class="mode-icon-dot"></view>
+        </view>
+        <view class="mode-info">
+          <text class="mode-name">{{item.name}}</text>
+          <text class="mode-desc">{{item.holes}} 个空格</text>
+        </view>
+        <view class="mode-check">
+          <view class="mode-check-icon"></view>
         </view>
       </view>
     </view>
   </view>
 
   <!-- 开始按钮 -->
-  <view class="action-area">
-    <view class="start-button" bindtap="startGame">
-      <text class="btn-text">开始游戏</text>
-      <view class="btn-deco">
-        <view class="deco-line"></view>
-        <view class="deco-arrow"></view>
-      </view>
+  <view class="action-section">
+    <view class="start-btn" bindtap="startGame">
+      <text>开始游戏</text>
+      <view class="btn-arrow-icon"></view>
     </view>
   </view>
 </view>
