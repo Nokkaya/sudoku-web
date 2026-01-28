@@ -1,5 +1,24 @@
 <template>
   <div class="app">
+    <!-- 自定义确认弹窗 -->
+    <Transition name="fade">
+      <div v-if="showExitConfirm" class="modal-overlay" @click="showExitConfirm = false">
+        <div class="modal" @click.stop>
+          <div class="modal-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+            </svg>
+          </div>
+          <h3 class="modal-title">返回主菜单？</h3>
+          <p class="modal-text">当前游戏进度将丢失，确定要返回吗？</p>
+          <div class="modal-actions">
+            <button class="modal-btn modal-btn-secondary" @click="showExitConfirm = false">取消</button>
+            <button class="modal-btn modal-btn-primary" @click="exitToMenu">确定</button>
+          </div>
+        </div>
+      </div>
+    </Transition>
+
     <!-- 首页视图 -->
     <div v-if="!gameStarted" class="home">
       <div class="container">
@@ -223,13 +242,18 @@ const startGame = () => {
   gameStarted.value = true
 }
 
+const showExitConfirm = ref(false)
+
 const confirmExit = () => {
-  if (confirm('确定要返回主菜单吗？当前游戏进度将丢失。')) {
-    gameStarted.value = false
-    timer.value = 0
-    hints.value = 3
-    selectedCell.value = null
-  }
+  showExitConfirm.value = true
+}
+
+const exitToMenu = () => {
+  showExitConfirm.value = false
+  gameStarted.value = false
+  timer.value = 0
+  hints.value = 3
+  selectedCell.value = null
 }
 
 const selectCell = (row, col) => {
@@ -614,6 +638,107 @@ onUnmounted(() => {
 .back-btn-float:hover {
   background: #dfe6e9;
   transform: scale(1.05);
+}
+
+/* 自定义弹窗样式 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 32px;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modal-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 20px;
+  background: #ffeaa7;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-icon svg {
+  width: 32px;
+  height: 32px;
+  color: #fdcb6e;
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2d3436;
+  margin: 0 0 8px;
+}
+
+.modal-text {
+  font-size: 15px;
+  color: #636e72;
+  margin: 0 0 28px;
+  line-height: 1.5;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.modal-btn {
+  flex: 1;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modal-btn-secondary {
+  background: #f1f2f6;
+  color: #2d3436;
+}
+
+.modal-btn-secondary:hover {
+  background: #dfe6e9;
+}
+
+.modal-btn-primary {
+  background: #00b894;
+  color: #ffffff;
+}
+
+.modal-btn-primary:hover {
+  background: #00a085;
+}
+
+/* 弹窗动画 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 
 .back-btn svg {
