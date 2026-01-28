@@ -1,96 +1,135 @@
-# Sudoku Web - Vue.js 数独游戏
+# Sudoku Master - Web Version
 
-一个精美的数独网页游戏，使用 Vue 3 + Vite 构建。
+A beautiful and elegant Sudoku game built with Vue 3 + Vite.
 
-![Sudoku](https://img.shields.io/badge/Vue-3.4-4FC08D?style=flat-square&logo=vue.js)
-![Vite](https://img.shields.io/badge/Vite-5.0-646CFF?style=flat-square&logo=vite)
+![Vue](https://img.shields.io/badge/Vue-3.4-4FC08D?style=flat-square&logo=vue.js)
+![Vite](https://img.shields.io/badge/Vite-6.0-646CFF?style=flat-square&logo=vite)
+![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
 
-## ✨ 特性
+**🌐 Play Online: [https://nokkaya.github.io/sudoku-web/](https://nokkaya.github.io/sudoku-web/)**
 
-- 🎮 完整数独游戏体验
-- 📱 响应式设计，适配手机和桌面
-- 🎨 温暖极简的 UI 设计
-- ⏱️ 计时器和统计
-- 💡 智能提示功能
-- 🌙 三种难度模式
-- 🚀 快速加载，流畅动画
+---
 
-## 🚀 快速开始
+## ✨ Features
 
-### 安装依赖
+- 🎮 **Complete Sudoku Experience** - Full-featured game with smart controls
+- 📱 **Responsive Design** - Perfect on mobile, tablet, and desktop
+- 🎨 **Warm Minimalist UI** - Clean and comfortable visual design
+- ⏱️ **Timer & Statistics** - Track your solve time
+- 💡 **Smart Hints** - Get help when stuck
+- 🌙 **Three Difficulty Levels** - Easy, Medium, Hard
+- 🚀 **Fast Loading** - Optimized performance with smooth animations
+- 🔄 **Quick Restart** - Jump back to menu anytime
+
+---
+
+## 🚀 Quick Start
+
+### Install Dependencies
 
 ```bash
 npm install
 ```
 
-### 开发模式
+### Development Mode
 
 ```bash
 npm run dev
 ```
 
-然后在浏览器打开 http://localhost:3000
+Then open http://localhost:5173 in your browser
 
-### 构建生产版本
+### Build for Production
 
 ```bash
 npm run build
 ```
 
-构建后的文件在 `dist/` 目录
-
-## 📁 项目结构
-
-```
-sudoku-web/
-├── index.html          # 入口 HTML
-├── package.json        # 项目配置
-├── vite.config.js      # Vite 配置
-└── src/
-    ├── main.js         # 应用入口
-    ├── App.vue         # 主组件
-    ├── assets/
-    │   └── styles.css  # 全局样式
-    └── utils/
-        └── sudoku.js   # 数独算法
-```
-
-## 🛠️ 技术栈
-
-- **Vue 3** - 渐进式 JavaScript 框架
-- **Composition API** - 现代化的组件逻辑组织方式
-- **Vite** - 下一代前端构建工具
-- **CSS3** - 纯 CSS，无框架依赖
-
-## 🎮 如何玩
-
-1. 选择难度（简单 / 中等 / 困难）
-2. 点击格子选中
-3. 点击底部数字输入
-4. 使用橡皮擦删除数字
-5. 使用提示功能获得帮助
-6. 填满所有空格完成挑战！
-
-## 📝 数独规则
-
-- 每行包含 1-9 各一次
-- 每列包含 1-9 各一次
-- 每个 3×3 宫格包含 1-9 各一次
-
-## 🤝 贡献
-
-欢迎提交 Issue 和 Pull Request！
-
-## 📄 许可证
-
-MIT License
-
-## 👨‍💻 作者
-
-**Nokkaya**
-
-- GitHub: [@Nokkaya](https://github.com/Nokkaya)
+The built files will be in the `docs/` directory, ready for GitHub Pages deployment.
 
 ---
 
-**祝你玩得开心！** 🎉
+## 📁 Project Structure
+
+```
+sudoku-web/
+├── index.html          # Entry HTML
+├── package.json        # Project configuration
+├── vite.config.js      # Vite configuration
+└── src/
+    ├── main.js         # Application entry point
+    ├── App.vue         # Main component (all logic & styles)
+    ├── assets/
+    │   └── styles.css  # Global styles
+    └── utils/
+        └── sudoku.js   # Sudoku generation algorithm
+```
+
+---
+
+## 🛠️ Tech Stack
+
+- **Vue 3** - Progressive JavaScript Framework
+- **Composition API** - Modern component logic organization
+- **Vite 6** - Next-generation frontend build tool
+- **CSS3** - Pure CSS, no framework dependencies
+- **GitHub Pages** - Free static site hosting
+
+---
+
+## 🎮 How to Play
+
+1. **Select Difficulty** - Choose from Easy, Medium, or Hard
+2. **Tap a Cell** - Click/tap to select an empty cell
+3. **Enter a Number** - Use the number pad at the bottom (1-9)
+4. **Use Eraser** - Remove incorrect numbers
+5. **Get Hints** - Use hints when stuck (limited to 3)
+6. **Complete the Puzzle** - Fill all cells to win!
+
+---
+
+## 📝 Sudoku Rules
+
+Classic Sudoku rules are simple:
+
+- ✅ Each row must contain numbers 1-9 without repetition
+- ✅ Each column must contain numbers 1-9 without repetition
+- ✅ Each 3×3 box must contain numbers 1-9 without repetition
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to:
+
+- 🐛 Report bugs
+- 💡 Suggest new features
+- 🔧 Submit pull requests
+- 📖 Improve documentation
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+## 👨‍💻 Author
+
+**Nokkaya**
+
+- � GitHub: [@Nokkaya](https://github.com/Nokkaya)
+- 🌐 Website: [https://nokkaya.github.io/](https://nokkaya.github.io/)
+
+---
+
+## 🙏 Acknowledgments
+
+- Inspired by classic Sudoku games
+- Built with love using Vue 3
+- Deployed on GitHub Pages
+
+---
+
+**Enjoy the game!** 🎉
