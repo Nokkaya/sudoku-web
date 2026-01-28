@@ -54,6 +54,11 @@
         <!-- 顶部信息栏 -->
         <div class="header">
           <div class="header-left">
+            <button class="back-btn" @click="confirmExit">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+              </svg>
+            </button>
             <span class="mode-tag">{{ currentModeName }}</span>
           </div>
           
@@ -215,6 +220,15 @@ const initGame = () => {
 const startGame = () => {
   initGame()
   gameStarted.value = true
+}
+
+const confirmExit = () => {
+  if (confirm('确定要返回主菜单吗？当前游戏进度将丢失。')) {
+    gameStarted.value = false
+    timer.value = 0
+    hints.value = 3
+    selectedCell.value = null
+  }
 }
 
 const selectCell = (row, col) => {
@@ -558,6 +572,30 @@ onUnmounted(() => {
   color: #2d3436;
 }
 
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: #ffffff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-right: 12px;
+  transition: all 0.2s ease;
+}
+
+.back-btn svg {
+  width: 20px;
+  height: 20px;
+  color: #2d3436;
+}
+
+.back-btn:hover {
+  background: #dfe6e9;
+}
+
 .timer-wrapper {
   display: flex;
   align-items: center;
@@ -666,30 +704,21 @@ onUnmounted(() => {
   transition: all 0.2s ease;
 }
 
-
-.cell:last-child { 
-  border-right: none; 
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.cell:last-child { 
+.cell:last-child {
   border-right: none;
 }
+
 .row:last-child .cell {
   border-bottom: none;
 }
 
-.row:last-child .cell:first-child {
-  border-bottom-left-radius: 0;
+.cell:nth-child(3n) {
+  border-right: 2px solid #faf9f7;
 }
 
-.row:last-child .cell:last-child {
-  border-bottom-right-radius: 0;
+.row:nth-child(3n) .cell {
+  border-bottom: 2px solid #faf9f7;
 }
-
-.cell:nth-child(3n) { border-right: 2px solid #faf9f7; }
-.row:nth-child(3n) .cell { border-bottom: 2px solid #faf9f7; }
 
 .cell.original {
   color: rgba(250, 249, 247, 0.4);
