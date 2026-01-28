@@ -31,7 +31,6 @@
             <div class="logo-accent"></div>
           </div>
           <h1 class="title">SUDOKU</h1>
-          <p class="subtitle">数独大师</p>
         </div>
 
         <!-- 难度选择 -->
@@ -426,13 +425,7 @@ onUnmounted(() => {
   font-weight: 700;
   letter-spacing: 6px;
   color: #2d3436;
-  margin-bottom: 8px;
-}
-
-.subtitle {
-  font-size: 18px;
-  color: #636e72;
-  letter-spacing: 2px;
+  margin-bottom: 0;
 }
 
 .section-label {
