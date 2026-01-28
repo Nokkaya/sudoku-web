@@ -452,15 +452,15 @@ onUnmounted(() => {
 .mode-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .mode-item {
   display: flex;
   align-items: center;
-  padding: 20px 24px;
+  padding: 14px 18px;
   background: #ffffff;
-  border-radius: 16px;
+  border-radius: 12px;
   border: 2px solid #f1f2f6;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -477,13 +477,13 @@ onUnmounted(() => {
 
 .mode-icon {
   display: flex;
-  gap: 4px;
-  margin-right: 16px;
+  gap: 3px;
+  margin-right: 12px;
 }
 
 .mode-icon .dot {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   background: #b2bec3;
   border-radius: 50%;
 }
@@ -498,7 +498,7 @@ onUnmounted(() => {
 
 .mode-name {
   display: block;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 600;
   color: #2d3436;
   margin-bottom: 2px;
@@ -509,7 +509,7 @@ onUnmounted(() => {
 }
 
 .mode-desc {
-  font-size: 14px;
+  font-size: 12px;
   color: #636e72;
 }
 
