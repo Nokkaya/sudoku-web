@@ -1,0 +1,293 @@
+/* game.wxss */
+page {
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20rpx;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* 顶部信息栏 */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 20rpx 10rpx;
+}
+
+.mode-tag {
+  padding: 10rpx 30rpx;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 30rpx;
+  color: #ffffff;
+  font-size: 28rpx;
+  font-weight: bold;
+}
+
+.timer {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #ffffff;
+  font-family: monospace;
+}
+
+.hints {
+  padding: 10rpx 30rpx;
+  background: rgba(255, 193, 7, 0.9);
+  border-radius: 30rpx;
+  color: #333333;
+  font-size: 28rpx;
+  font-weight: bold;
+}
+
+/* 数独棋盘 */
+.board {
+  background: #ffffff;
+  border-radius: 16rpx;
+  padding: 16rpx;
+  box-shadow: 0 10rpx 40rpx rgba(0, 0, 0, 0.2);
+  margin: 20rpx 0;
+}
+
+.board-inner {
+  position: relative;
+  width: 630rpx;
+  height: 630rpx;
+}
+
+/* 3x3 宫格边框 */
+.grid-borders {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.border-h {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 4rpx;
+  background: #333333;
+}
+
+.border-h-1 {
+  top: 33.33%;
+}
+
+.border-h-2 {
+  top: 66.66%;
+}
+
+.border-v {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 4rpx;
+  background: #333333;
+}
+
+.border-v-1 {
+  left: 33.33%;
+}
+
+.border-v-2 {
+  left: 66.66%;
+}
+
+/* 格子样式 */
+.cells {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.row {
+  flex: 1;
+  display: flex;
+}
+
+.cell {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40rpx;
+  font-weight: bold;
+  border: 1rpx solid #e0e0e0;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+/* 格子右边框和下边框只在特定位置显示 */
+.cell:nth-child(3n) {
+  border-right: 2rpx solid #333333;
+}
+
+.row:nth-child(3n) .cell {
+  border-bottom: 2rpx solid #333333;
+}
+
+/* 第一个格子左上边框 */
+.row:nth-child(1) .cell:nth-child(1) {
+  border-top-left-radius: 8rpx;
+}
+
+/* 右上角 */
+.row:nth-child(1) .cell:nth-child(9) {
+  border-top-right-radius: 8rpx;
+}
+
+/* 左下角 */
+.row:nth-child(9) .cell:nth-child(1) {
+  border-bottom-left-radius: 8rpx;
+}
+
+/* 右下角 */
+.row:nth-child(9) .cell:nth-child(9) {
+  border-bottom-right-radius: 8rpx;
+}
+
+.cell.original {
+  background: #f5f5f5;
+  color: #333333;
+}
+
+.cell:not(.original):not(.empty) {
+  color: #007AFF;
+}
+
+.cell.empty {
+  color: transparent;
+}
+
+.cell.selected {
+  background: #007AFF !important;
+  color: #ffffff !important;
+}
+
+.cell.highlight {
+  background: #e3f2fd;
+}
+
+.cell.selected.highlight {
+  background: #007AFF;
+  opacity: 0.7;
+}
+
+/* 数字键盘 */
+.number-pad {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12rpx;
+  width: 100%;
+  max-width: 700rpx;
+  padding: 20rpx;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.num-btn {
+  width: 90rpx;
+  height: 90rpx;
+  line-height: 90rpx;
+  text-align: center;
+  background: #ffffff;
+  border-radius: 16rpx;
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #333333;
+  box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.num-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 2rpx 5rpx rgba(0, 0, 0, 0.1);
+}
+
+.clear-btn {
+  background: #ff6b6b;
+  color: #ffffff;
+  font-size: 36rpx;
+}
+
+/* 功能按钮 */
+.actions {
+  display: flex;
+  gap: 30rpx;
+  margin-top: 10rpx;
+}
+
+.action-btn {
+  padding: 20rpx 50rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  border-radius: 40rpx;
+  border: none;
+}
+
+.hint-btn {
+  background: #ffc107;
+  color: #333333;
+}
+
+.restart-btn {
+  background: rgba(255, 255, 255, 0.9);
+  color: #667eea;
+}
+
+/* 完成状态 */
+.completed-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.completed-modal {
+  background: #ffffff;
+  padding: 60rpx;
+  border-radius: 24rpx;
+  text-align: center;
+}
+
+.completed-title {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #4CAF50;
+  margin-bottom: 20rpx;
+}
+
+.completed-stats {
+  font-size: 32rpx;
+  color: #666666;
+  margin-bottom: 40rpx;
+}
+
+.completed-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+  border-radius: 40rpx;
+  padding: 20rpx 60rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+}

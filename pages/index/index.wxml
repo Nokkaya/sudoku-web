@@ -1,0 +1,24 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="logo">
+    <text class="title">数独大师</text>
+    <text class="subtitle">挑战你的逻辑思维</text>
+  </view>
+
+  <view class="mode-select">
+    <text class="section-title">选择难度</text>
+    <view class="mode-list">
+      <view 
+        wx:for="{{modes}}" 
+        wx:key="id" 
+        class="mode-item {{selectedMode === index ? 'active' : ''}}"
+        bindtap="selectMode"
+        data-index="{{index}}"
+      >
+        <text>{{item.name}}</text>
+      </view>
+    </view>
+  </view>
+
+  <button class="start-btn" bindtap="startGame">开始游戏</button>
+</view>

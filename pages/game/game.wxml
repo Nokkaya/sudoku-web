@@ -1,0 +1,62 @@
+<!--game.wxml-->
+<view class="container">
+  <!-- 顶部信息栏 -->
+  <view class="header">
+    <view class="mode-tag">{{modeName}}</view>
+    <view class="timer">{{formatTime(timer)}}</view>
+    <view class="hints">💡 {{hints}}次</view>
+  </view>
+
+  <!-- 数独棋盘 -->
+  <view class="board">
+    <view class="board-inner">
+      <!-- 3x3 大宫格边框 -->
+      <view class="grid-borders">
+        <view class="border-h border-h-1"></view>
+        <view class="border-h border-h-2"></view>
+        <view class="border-v border-v-1"></view>
+        <view class="border-v border-v-2"></view>
+      </view>
+      
+      <!-- 9x9 格子 -->
+      <view class="cells">
+        <view wx:for="{{board}}" wx:for-item="row" wx:for-index="rowIdx" wx:key="rowIdx" class="row">
+          <view 
+            wx:for="{{row}}" 
+            wx:for-item="cell" 
+            wx:for-index="colIdx" 
+            wx:key="colIdx"
+            class="{{getCellClass(rowIdx, colIdx)}}"
+            data-row="{{rowIdx}}"
+            data-col="{{colIdx}}"
+            bindtap="selectCell"
+          >
+            {{cell !== 0 ? cell : ''}}
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 数字键盘 -->
+  <view class="number-pad" wx:if="{{!isComplete}}">
+    <view 
+      wx:for="{{nums}}" 
+      wx:key="*this" 
+      class="num-btn"
+      bindtap="inputNumber"
+      data-num="{{item}}"
+    >
+      {{item}}
+    </view>
+    <view class="num-btn clear-btn" bindtap="clearCell">⌫</view>
+  </view>
+
+  <!-- 功能按钮 -->
+  <view class="actions">
+    <button class="action-btn hint-btn" bindtap="useHint" wx:if="{{!isComplete}}">
+      💡 提示
+    </button>
+    <button class="action-btn restart-btn" bindtap="restart">🔄 重来</button>
+  </view>
+</view>
