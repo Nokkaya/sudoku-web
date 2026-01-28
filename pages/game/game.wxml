@@ -1,45 +1,65 @@
 <!--game.wxml-->
-<view class="container">
+<view class="page">
   <!-- 顶部信息栏 -->
   <view class="header">
     <view class="header-left">
-      <text class="mode-tag">{{modeName}}</text>
+      <view class="mode-badge">
+        <text class="mode-text">{{modeName}}</text>
+      </view>
     </view>
+    
     <view class="header-center">
-      <view class="timer-icon"></view>
-      <text class="timer">{{formatTime(timer)}}</text>
+      <view class="timer-block">
+        <view class="timer-dot"></view>
+        <text class="timer-text">{{formatTime(timer)}}</text>
+      </view>
     </view>
+    
     <view class="header-right">
-      <text class="hint-count">{{hints}}</text>
-      <view class="hint-icon"></view>
+      <view class="hint-block">
+        <text class="hint-number">{{hints}}</text>
+        <text class="hint-label">提示</text>
+      </view>
     </view>
+  </view>
+
+  <!-- 装饰元素 -->
+  <view class="game-decoration">
+    <view class="corner-deco top-left"></view>
+    <view class="corner-deco top-right"></view>
+    <view class="corner-deco bottom-left"></view>
+    <view class="corner-deco bottom-right"></view>
   </view>
 
   <!-- 数独棋盘 -->
   <view class="board-container">
-    <view class="board">
-      <!-- 3x3 大宫格边框 -->
-      <view class="grid-borders">
-        <view class="border-h border-h-1"></view>
-        <view class="border-h border-h-2"></view>
-        <view class="border-v border-v-1"></view>
-        <view class="border-v border-v-2"></view>
-      </view>
-      
-      <!-- 9x9 格子 -->
-      <view class="cells">
-        <view wx:for="{{board}}" wx:for-item="row" wx:for-index="rowIdx" wx:key="rowIdx" class="row">
-          <view 
-            wx:for="{{row}}" 
-            wx:for-item="cell" 
-            wx:for-index="colIdx" 
-            wx:key="colIdx"
-            class="{{getCellClass(rowIdx, colIdx)}}"
-            data-row="{{rowIdx}}"
-            data-col="{{colIdx}}"
-            bindtap="selectCell"
-          >
-            {{cell !== 0 ? cell : ''}}
+    <view class="board-frame">
+      <view class="board">
+        <!-- 3x3 宫格边框 -->
+        <view class="grid-borders">
+          <view class="border-h border-h-1"></view>
+          <view class="border-h border-h-2"></view>
+          <view class="border-v border-v-1"></view>
+          <view class="border-v border-v-2"></view>
+        </view>
+        
+        <!-- 9x9 格子 -->
+        <view class="cells">
+          <view wx:for="{{board}}" wx:for-item="row" wx:for-index="rowIdx" wx:key="rowIdx" class="row">
+            <view 
+              wx:for="{{row}}" 
+              wx:for-item="cell" 
+              wx:for-index="colIdx" 
+              wx:key="colIdx"
+              class="{{getCellClass(rowIdx, colIdx)}}"
+              data-row="{{rowIdx}}"
+              data-col="{{colIdx}}"
+              bindtap="selectCell"
+            >
+              <view class="cell-inner" wx:if="{{cell !== 0}}">
+                <text>{{cell}}</text>
+              </view>
+            </view>
           </view>
         </view>
       </view>
@@ -47,24 +67,30 @@
   </view>
 
   <!-- 数字键盘 -->
-  <view class="number-pad" wx:if="{{!isComplete}}">
-    <view wx:for="{{nums}}" wx:key="*this" class="num-btn" bindtap="inputNumber" data-num="{{item}}">
-      <text>{{item}}</text>
-    </view>
-    <view class="num-btn clear-btn" bindtap="clearCell">
-      <view class="clear-icon"></view>
+  <view class="keypad-section" wx:if="{{!isComplete}}">
+    <view class="keypad">
+      <view wx:for="{{nums}}" wx:key="*this" class="key" bindtap="inputNumber" data-num="{{item}}">
+        <text>{{item}}</text>
+      </view>
+      <view class="key key-erase" bindtap="clearCell">
+        <view class="erase-icon">
+          <view class="erase-line"></view>
+        </view>
+      </view>
     </view>
   </view>
 
   <!-- 功能按钮 -->
-  <view class="actions" wx:if="{{!isComplete}}">
-    <view class="action-btn" bindtap="useHint">
-      <view class="hint-btn-icon"></view>
-      <text>提示</text>
+  <view class="tools-section" wx:if="{{!isComplete}}">
+    <view class="tool-button" bindtap="useHint">
+      <view class="tool-icon hint-icon"></view>
+      <text class="tool-text">提示</text>
     </view>
-    <view class="action-btn" bindtap="restart">
-      <view class="restart-icon"></view>
-      <text>重来</text>
+    <view class="tool-button" bindtap="restart">
+      <view class="tool-icon restart-icon">
+        <view class="restart-arrow"></view>
+      </view>
+      <text class="tool-text">重来</text>
     </view>
   </view>
 </view>
