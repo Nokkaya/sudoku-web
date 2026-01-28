@@ -374,6 +374,10 @@ onUnmounted(() => {
   padding: 40px 20px;
 }
 
+.game {
+  padding-top: 80px;
+}
+
 .container {
   max-width: 480px;
   margin: 0 auto;
