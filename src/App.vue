@@ -234,6 +234,7 @@ const initGame = () => {
   selectedCell.value = null
   isComplete.value = false
   hints.value = 3
+  stopTimer()
   startTimer()
 }
 
@@ -1014,11 +1015,10 @@ onUnmounted(() => {
 .hint-icon::after {
   content: '';
   position: absolute;
-  bottom: -5px;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: -6px;
+  right: 4px;
   width: 3px;
-  height: 8px;
+  height: 10px;
   background: #00b894;
   border-radius: 2px;
 }
@@ -1027,21 +1027,21 @@ onUnmounted(() => {
   width: 22px;
   height: 22px;
   border: 3px solid #2d3436;
-  border-left-color: transparent;
+  border-top-color: transparent;
+  border-right-color: transparent;
   border-radius: 50%;
   position: relative;
 }
 
 .restart-arrow {
   position: absolute;
-  top: -4px;
-  left: 50%;
+  top: 2px;
+  right: 4px;
   width: 0;
   height: 0;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
-  border-bottom: 6px solid #2d3436;
-  transform: translateX(-50%) rotate(90deg);
+  border-top: 7px solid #2d3436;
 }
 
 /* 完成弹窗 */
