@@ -247,7 +247,7 @@
         <div class="excel-sheet-area">
           <div class="excel-corner-header">◢</div>
           <div class="excel-col-headers">
-            <div v-for="col in 12" :key="col" class="col-header"
+            <div v-for="col in 11" :key="col" class="col-header"
               :class="{ active: isExcelColActive(col) }">
               {{ String.fromCharCode(64 + col) }}
             </div>
@@ -263,7 +263,7 @@
           <div class="excel-grid-content">
             <div class="excel-grid">
               <div v-for="row in 15" :key="'r' + row" class="excel-row">
-                <div v-for="col in 12" :key="'c' + col" class="excel-cell"
+                <div v-for="col in 11" :key="'c' + col" class="excel-cell"
                   :class="getSudokuCellClass(row, col)"
                   @click="handleExcelCellClick(row, col)">
                   {{ getSudokuCellValue(row, col) }}
