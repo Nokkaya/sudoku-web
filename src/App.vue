@@ -151,10 +151,161 @@
     </div>
 
     <!-- 游戏视图 -->
-    <div v-else class="game">
-      <div class="container">
+    <div v-else class="game" :class="{ 'excel-layout': isExcelMode }">
+      <!-- Excel Mode Structure -->
+      <div v-if="isExcelMode" class="excel-wrapper">
+        <!-- Title Bar -->
+        <div class="excel-title-bar">
+          <div class="excel-title-text">Book1 - Excel</div>
+          <div class="excel-window-controls">
+            <span>─</span>
+            <span>□</span>
+            <span class="close-x" @click="confirmExit">×</span>
+          </div>
+        </div>
+
+        <!-- Ribbon -->
+        <div class="excel-ribbon">
+          <div class="ribbon-tabs">
+            <div class="ribbon-tab active">Home</div>
+            <div class="ribbon-tab">Insert</div>
+            <div class="ribbon-tab">Page Layout</div>
+            <div class="ribbon-tab">Formulas</div>
+            <div class="ribbon-tab">Data</div>
+            <div class="ribbon-tab">Review</div>
+            <div class="ribbon-tab">View</div>
+          </div>
+          <div class="ribbon-toolbar">
+            <div class="ribbon-group">
+              <div class="ribbon-btn large" @click="restart">
+                <span class="icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                  </svg>
+                </span>
+                <span class="label">Paste</span>
+              </div>
+            </div>
+            <div class="ribbon-divider"></div>
+            <div class="ribbon-group">
+              <div class="ribbon-row">
+                <select class="ribbon-select">
+                  <option>Calibri</option>
+                </select>
+                <select class="ribbon-select small">
+                  <option>11</option>
+                </select>
+              </div>
+              <div class="ribbon-row">
+                <div class="ribbon-btn small bold">B</div>
+                <div class="ribbon-btn small italic">I</div>
+                <div class="ribbon-btn small underline">U</div>
+              </div>
+            </div>
+            <div class="ribbon-divider"></div>
+            <div class="ribbon-group game-info-group">
+              <div class="game-info-item">
+                <span class="info-label">难度</span>
+                <span class="info-value">{{ currentModeName }}</span>
+              </div>
+              <div class="game-info-item">
+                <span class="info-label">时间</span>
+                <span class="info-value timer-display">{{ formatTime(timer) }}</span>
+              </div>
+            </div>
+            <div class="ribbon-divider"></div>
+            <div class="ribbon-group">
+              <div class="ribbon-btn large" @click="useHint">
+                <span class="icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                  </svg>
+                </span>
+                <span class="label">Hint ({{ hints }})</span>
+              </div>
+              <div class="ribbon-btn large" @click="showSettingsModal = true">
+                <span class="icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                </span>
+                <span class="label">Settings</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Formula Bar -->
+        <div class="excel-formula-bar">
+          <div class="name-box">{{ getExcelCellAddress() }}</div>
+          <div class="formula-icon">fx</div>
+          <div class="formula-input">{{ getExcelCellValue() }}</div>
+        </div>
+
+        <!-- Sheet Area -->
+        <div class="excel-sheet-area">
+          <div class="excel-corner-header">◢</div>
+          <div class="excel-col-headers">
+            <div v-for="col in 12" :key="col" class="col-header"
+              :class="{ active: isExcelColActive(col) }">
+              {{ String.fromCharCode(64 + col) }}
+            </div>
+          </div>
+          <div class="excel-row-headers">
+            <div v-for="row in 15" :key="row" class="row-header"
+              :class="{ active: isExcelRowActive(row) }">
+              {{ row }}
+            </div>
+          </div>
+
+          <!-- Excel Grid with Sudoku embedded -->
+          <div class="excel-grid-content">
+            <div class="excel-grid">
+              <div v-for="row in 15" :key="'r' + row" class="excel-row">
+                <div v-for="col in 12" :key="'c' + col" class="excel-cell"
+                  :class="getSudokuCellClass(row, col)"
+                  @click="handleExcelCellClick(row, col)">
+                  {{ getSudokuCellValue(row, col) }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Excel底部状态栏 -->
+        <div class="excel-status-bar">
+          <div class="status-left">
+            <div class="sheet-tabs">
+              <div class="sheet-nav-btn">◄</div>
+              <div class="sheet-tab active">
+                <svg viewBox="0 0 16 16" width="11" height="11" style="margin-right: 6px;">
+                  <rect x="2" y="2" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                  <line x1="2" y1="6" x2="14" y2="6" stroke="currentColor" stroke-width="1.5"/>
+                  <line x1="6" y1="2" x2="6" y2="14" stroke="currentColor" stroke-width="1.5"/>
+                </svg>
+                Sheet1
+              </div>
+              <div class="sheet-nav-btn">►</div>
+            </div>
+          </div>
+          <div class="status-right">
+            <div class="status-info">准备就绪</div>
+            <div class="zoom-control">
+              <span class="zoom-btn">－</span>
+              <div class="zoom-slider">
+                <div class="zoom-track"></div>
+              </div>
+              <span class="zoom-btn">＋</span>
+              <span class="zoom-percent">100%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container" :class="{ 'excel-hidden': isExcelMode }">
         <!-- 返回按钮 -->
-        <button class="back-btn-float" @click="confirmExit">
+        <button class="back-btn-float" @click="confirmExit" v-if="!isExcelMode">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M19 12H5M12 19l-7-7 7-7" />
           </svg>
@@ -298,7 +449,7 @@ const themes = [
   { id: 'theme-default', name: '简洁清新', previewBg: '#f0f2f5', previewAccent: '#00b894' },
   { id: 'theme-macaron', name: '马卡龙', previewBg: '#fff0f5', previewAccent: '#fdcb6e' },
   { id: 'theme-dark', name: '暗黑模式', previewBg: '#121212', previewAccent: '#00b894' },
-  { id: 'theme-stealth', name: '魔域模式', previewBg: '#f5f5f5', previewAccent: '#7f8c8d' }
+  { id: 'theme-excel', name: '摸鱼模式', previewBg: '#107C41', previewAccent: '#ffffff' }
 ]
 const currentTheme = ref('theme-default')
 const showSettingsModal = ref(false)
@@ -313,6 +464,7 @@ const infiniteHintsEnabled = ref(false)
 // 计算属性
 const currentModeName = computed(() => modes[selectedMode.value].name)
 const currentDifficulty = computed(() => modes[selectedMode.value].holes)
+const isExcelMode = computed(() => currentTheme.value === 'theme-excel')
 
 let timerInterval = null
 
@@ -624,6 +776,149 @@ const getCellClass = (row, col) => {
   return classes.join(' ')
 }
 
+// Excel模式：数独棋盘从B3开始(第3行第2列)到J11结束(第11行第10列)
+const SUDOKU_START_ROW = 3
+const SUDOKU_START_COL = 2
+
+const isSudokuCell = (excelRow, excelCol) => {
+  return excelRow >= SUDOKU_START_ROW && excelRow < SUDOKU_START_ROW + 9 &&
+         excelCol >= SUDOKU_START_COL && excelCol < SUDOKU_START_COL + 9
+}
+
+const getSudokuCellValue = (excelRow, excelCol) => {
+  // 第13-14行：数字键盘区域（右移一列，从D列开始）
+  if (excelRow === 13) {
+    if (excelCol >= 4 && excelCol <= 8) {
+      return excelCol - 3  // 1, 2, 3, 4, 5
+    }
+  }
+  if (excelRow === 14) {
+    if (excelCol >= 4 && excelCol <= 7) {
+      return excelCol - 3 + 5  // 6, 7, 8, 9
+    }
+    if (excelCol === 8) {
+      return '×'
+    }
+  }
+
+  // 数独单元格
+  if (!isSudokuCell(excelRow, excelCol)) return ''
+
+  const sudokuRow = excelRow - SUDOKU_START_ROW
+  const sudokuCol = excelCol - SUDOKU_START_COL
+  const value = board.value[sudokuRow]?.[sudokuCol]
+
+  return value === 0 ? '' : value
+}
+
+const getSudokuCellClass = (excelRow, excelCol) => {
+  const classes = ['excel-cell']
+
+  // 第13-14行：数字键盘区域（右移一列）
+  if (excelRow === 13 && excelCol >= 4 && excelCol <= 8) {
+    classes.push('keypad-cell')
+    if (!isComplete.value) classes.push('clickable')
+    return classes.join(' ')
+  }
+  if (excelRow === 14 && excelCol >= 4 && excelCol <= 8) {
+    classes.push('keypad-cell')
+    if (excelCol === 8) classes.push('clear-key')
+    if (!isComplete.value) classes.push('clickable')
+    return classes.join(' ')
+  }
+
+  // 数独单元格
+  if (!isSudokuCell(excelRow, excelCol)) {
+    return classes.join(' ')
+  }
+
+  const sudokuRow = excelRow - SUDOKU_START_ROW
+  const sudokuCol = excelCol - SUDOKU_START_COL
+
+  classes.push('sudoku-cell')
+
+  const cell = board.value[sudokuRow][sudokuCol]
+  const original = originalBoard.value[sudokuRow][sudokuCol]
+
+  if (original !== 0) classes.push('original')
+  if (cell !== 0) classes.push('filled')
+  if (cell === 0) classes.push('empty')
+
+  if (selectedCell.value &&
+      selectedCell.value.row === sudokuRow &&
+      selectedCell.value.col === sudokuCol) {
+    classes.push('selected')
+  } else if (selectedCell.value) {
+    const { row: selRow, col: selCol } = selectedCell.value
+    if (selRow === sudokuRow || selCol === sudokuCol ||
+        Math.floor(selRow / 3) === Math.floor(sudokuRow / 3) &&
+        Math.floor(selCol / 3) === Math.floor(sudokuCol / 3)) {
+      classes.push('highlight')
+    }
+  }
+
+  // 3x3宫格边界
+  if ((sudokuCol + 1) % 3 === 0 && sudokuCol < 8) classes.push('thick-right')
+  if ((sudokuRow + 1) % 3 === 0 && sudokuRow < 8) classes.push('thick-bottom')
+
+  return classes.join(' ')
+}
+
+const handleExcelCellClick = (excelRow, excelCol) => {
+  // 处理数字键盘点击（右移一列）
+  if (!isComplete.value) {
+    if (excelRow === 13 && excelCol >= 4 && excelCol <= 8) {
+      inputNumber(excelCol - 3)  // 1-5
+      return
+    }
+    if (excelRow === 14 && excelCol >= 4 && excelCol <= 8) {
+      if (excelCol === 8) {
+        clearCell()  // 删除键
+      } else {
+        inputNumber(excelCol - 3 + 5)  // 6-9
+      }
+      return
+    }
+  }
+
+  // 处理数独单元格点击
+  if (!isSudokuCell(excelRow, excelCol)) return
+
+  const sudokuRow = excelRow - SUDOKU_START_ROW
+  const sudokuCol = excelCol - SUDOKU_START_COL
+
+  if (originalBoard.value[sudokuRow][sudokuCol] !== 0) {
+    return
+  }
+  selectedCell.value = { row: sudokuRow, col: sudokuCol }
+}
+
+const getExcelCellAddress = () => {
+  if (!selectedCell.value) return 'A1'
+
+  const excelCol = selectedCell.value.col + SUDOKU_START_COL
+  const excelRow = selectedCell.value.row + SUDOKU_START_ROW
+
+  return `${String.fromCharCode(64 + excelCol)}${excelRow}`
+}
+
+const getExcelCellValue = () => {
+  if (!selectedCell.value) return ''
+
+  const value = board.value[selectedCell.value.row]?.[selectedCell.value.col]
+  return value === 0 ? '' : value
+}
+
+const isExcelColActive = (col) => {
+  if (!selectedCell.value) return false
+  return col === selectedCell.value.col + SUDOKU_START_COL
+}
+
+const isExcelRowActive = (row) => {
+  if (!selectedCell.value) return false
+  return row === selectedCell.value.row + SUDOKU_START_ROW
+}
+
 const restart = () => {
   if (isComplete.value) {
     gameStarted.value = false
@@ -752,49 +1047,6 @@ onUnmounted(() => {
   --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.6);
   --modal-overlay: rgba(0, 0, 0, 0.8);
-}
-
-/* 魔域 (Stealth) 主题 - Excel/Terminal 风格 */
-.theme-stealth {
-  --bg-primary: #f5f5f5;
-  --bg-card: #ffffff;
-  --bg-input: #e0e0e0;
-
-  --text-main: #333333;
-  --text-scnd: #666666;
-  --text-tertiary: #999999;
-  --text-inverse: #ffffff;
-
-  --accent: #636e72;
-  /* 灰色 */
-  --accent-hover: #2d3436;
-  --border: #b2bec3;
-
-  --cell-bg: #ffffff;
-  --cell-text: #000000;
-  --cell-original: #0984e3;
-  /* 蓝色链接色 */
-  --cell-border: #dfe6e9;
-  --cell-border-thick: #2d3436;
-  --cell-highlight: #ecf0f1;
-
-  --btn-primary-bg: #636e72;
-  --btn-primary-text: #ffffff;
-
-  /* 移除阴影和圆角 */
-  --shadow-sm: none;
-  --shadow-md: none;
-  --shadow-lg: none;
-  --modal-overlay: rgba(255, 255, 255, 0.1);
-  /* 几乎不可见 */
-
-  --radius-sm: 0;
-  --radius-md: 0;
-  --radius-lg: 0;
-  --radius-xl: 0;
-
-  --font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-  /* 代码风格 */
 }
 </style>
 
@@ -1881,6 +2133,676 @@ onUnmounted(() => {
     width: 48px;
     height: 48px;
     font-size: 20px;
+  }
+}
+</style>
+
+<style>
+/* 摸鱼模式 (Excel) 完整样式覆盖 */
+.theme-excel {
+  --bg-primary: #f8f9fa;
+  --bg-card: #ffffff;
+  --bg-input: #ffffff;
+  --text-main: #212529;
+  --text-scnd: #495057;
+  --text-tertiary: #adb5bd;
+  --text-inverse: #ffffff;
+  --accent: #107C41;
+  --accent-hover: #0c5d31;
+  --border: #d1d1d1;
+  --cell-bg: #ffffff;
+  --cell-text: #000000;
+  --cell-original: #000000;
+  --cell-border: #d0d7de;
+  --cell-border-thick: #217346;
+  --cell-highlight: rgba(33, 115, 70, 0.1);
+  --btn-primary-bg: #107C41;
+  --btn-primary-text: #ffffff;
+  --shadow-sm: none;
+  --shadow-md: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --modal-overlay: rgba(0, 0, 0, 0.2);
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+  --font-family: 'Segoe UI', 'Calibri', 'Arial', sans-serif;
+  --excel-header-bg: #f8f9fa;
+  --excel-header-border: #d4d4d4;
+  --excel-selection-border: #107C41;
+  --excel-ribbon-bg: #f3f2f1;
+}
+
+/* Excel Layout Styling */
+.excel-layout {
+  padding: 0 !important;
+  background: #fff !important;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.excel-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.excel-title-bar {
+  background: #107C41;
+  color: white;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  position: relative;
+}
+
+.excel-title-text {
+  font-weight: 400;
+}
+
+.excel-window-controls {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: flex;
+}
+
+.excel-window-controls span {
+  padding: 5px 15px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.excel-window-controls span:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.excel-window-controls .close-x:hover {
+  background: #e81123;
+}
+
+/* Ribbon */
+.excel-ribbon {
+  background: var(--excel-ribbon-bg);
+  border-bottom: 1px solid #d1d1d1;
+}
+
+.ribbon-tabs {
+  display: flex;
+  padding-left: 10px;
+  background: #f3f2f1;
+}
+
+.ribbon-tab {
+  padding: 5px 15px;
+  font-size: 14px;
+  color: #444;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+}
+
+.ribbon-tab:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.ribbon-tab.active {
+  color: #107C41;
+  border-bottom-color: #107C41;
+  font-weight: 600;
+  background: white;
+}
+
+.ribbon-toolbar {
+  height: 90px;
+  background: white;
+  display: flex;
+  padding: 5px;
+  align-items: center;
+}
+
+.ribbon-group {
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px;
+  border-right: 1px solid #ddd;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.ribbon-row {
+  display: flex;
+  gap: 5px;
+  margin: 2px 0;
+}
+
+.ribbon-divider {
+  width: 1px;
+  height: 80px;
+  background: #ddd;
+  margin: 0 5px;
+}
+
+.ribbon-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 3px;
+  min-width: 40px;
+  transition: background 0.2s;
+}
+
+.ribbon-btn:hover {
+  background: #f0f0f0;
+}
+
+.ribbon-btn.large {
+  flex-direction: column;
+  padding: 8px;
+}
+
+.ribbon-btn.large .icon {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ribbon-btn.large .icon svg {
+  width: 20px;
+  height: 20px;
+  color: #107C41;
+}
+
+.ribbon-btn.large .label {
+  font-size: 11px;
+  color: #666;
+  text-align: center;
+}
+
+.ribbon-btn.small {
+  padding: 3px 8px;
+  min-width: 28px;
+  height: 24px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.ribbon-btn.small.bold {
+  font-family: 'Times New Roman', serif;
+}
+
+.ribbon-btn.small.italic {
+  font-style: italic;
+}
+
+.ribbon-btn.small.underline {
+  text-decoration: underline;
+}
+
+.ribbon-select {
+  padding: 2px 5px;
+  border: 1px solid #d1d1d1;
+  font-size: 12px;
+  background: white;
+  cursor: pointer;
+}
+
+.ribbon-select.small {
+  width: 50px;
+}
+
+/* Ribbon游戏信息组 */
+.ribbon-group.game-info-group {
+  gap: 8px;
+  padding: 0 15px;
+}
+
+.game-info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.info-label {
+  font-size: 10px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #107C41;
+}
+
+.timer-display {
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  letter-spacing: 1px;
+  font-size: 18px;
+}
+
+/* Formula Bar */
+.excel-formula-bar {
+  display: flex;
+  height: 28px;
+  border-bottom: 1px solid #d1d1d1;
+  align-items: center;
+  background: white;
+  padding: 2px;
+}
+
+.name-box {
+  width: 60px;
+  border-right: 1px solid #d1d1d1;
+  padding: 0 10px;
+  font-size: 12px;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  background: white;
+  color: #000;
+}
+
+.formula-icon {
+  width: 30px;
+  color: #a0a0a0;
+  font-style: italic;
+  font-weight: bold;
+  text-align: center;
+  font-family: serif;
+}
+
+.formula-input {
+  flex: 1;
+  height: 100%;
+  line-height: 24px;
+  padding-left: 5px;
+  font-size: 13px;
+  color: #000;
+}
+
+/* Sheet Area */
+.excel-sheet-area {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  grid-template-rows: 24px 1fr;
+  background: #e6e6e6;
+  overflow: hidden;
+}
+
+.excel-corner-header {
+  background: #f8f9fa;
+  border-right: 1px solid #d1d1d1;
+  border-bottom: 1px solid #d1d1d1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  font-size: 14px;
+  cursor: default;
+  user-select: none;
+}
+
+.excel-col-headers {
+  display: flex;
+  background: #f8f9fa;
+  border-bottom: 1px solid #d1d1d1;
+}
+
+.col-header {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #d1d1d1;
+  font-size: 12px;
+  color: #444;
+  font-weight: 500;
+  min-width: 0;
+  background: #f8f9fa;
+  cursor: default;
+  user-select: none;
+}
+
+.excel-row-headers {
+  display: flex;
+  flex-direction: column;
+  background: #f8f9fa;
+  border-right: 1px solid #d1d1d1;
+}
+
+.row-header {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #d1d1d1;
+  font-size: 12px;
+  color: #444;
+  font-weight: 500;
+  background: #f8f9fa;
+  cursor: default;
+  user-select: none;
+  min-height: 0;
+}
+
+.col-header.active,
+.row-header.active {
+  background: #e1f5fe;
+  color: #107C41;
+  font-weight: bold;
+}
+
+.excel-grid-content {
+  background: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.excel-hidden {
+  display: none !important;
+}
+
+/* Excel网格 */
+.excel-grid {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.excel-row {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.excel-cell {
+  flex: 1;
+  min-width: 0;
+  border-right: 1px solid #d0d7de;
+  border-bottom: 1px solid #d0d7de;
+  background: white;
+  font-size: 12px;
+  font-family: 'Calibri', 'Arial', sans-serif;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: cell;
+  user-select: none;
+}
+
+.excel-cell:hover {
+  background: #f5f5f5;
+}
+
+/* 数独单元格特殊样式 */
+.excel-cell.sudoku-cell {
+  font-size: 24px;
+  font-weight: 400;
+  background: white;
+  cursor: pointer;
+}
+
+.excel-cell.sudoku-cell.original {
+  font-weight: 700;
+  color: #217346;
+}
+
+.excel-cell.sudoku-cell.filled:not(.original) {
+  color: #000;
+  font-weight: 400;
+}
+
+.excel-cell.sudoku-cell.empty {
+  background: white;
+}
+
+.excel-cell.sudoku-cell.selected {
+  outline: 2px solid #107C41 !important;
+  outline-offset: -2px;
+  background: white !important;
+  z-index: 10;
+  position: relative;
+}
+
+.excel-cell.sudoku-cell.highlight {
+  background: #e8f5e9 !important;
+}
+
+.excel-cell.sudoku-cell:hover:not(.selected) {
+  background: #f0f0f0 !important;
+}
+
+/* 3x3宫格边界 */
+.excel-cell.thick-right {
+  border-right: 2px solid #217346;
+}
+
+.excel-cell.thick-bottom {
+  border-bottom: 2px solid #217346;
+}
+
+/* Excel底部状态栏 */
+.excel-status-bar {
+  height: 24px;
+  background: #f3f2f1;
+  border-top: 1px solid #d1d1d1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #444;
+}
+
+.status-left {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.sheet-tabs {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  gap: 2px;
+  padding-left: 8px;
+}
+
+.sheet-nav-btn {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 10px;
+  user-select: none;
+}
+
+.sheet-nav-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.sheet-tab {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  height: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-size: 11px;
+  cursor: pointer;
+  user-select: none;
+  color: #444;
+  transition: all 0.15s;
+}
+
+.sheet-tab:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.sheet-tab.active {
+  background: white;
+  border-bottom-color: #107C41;
+  font-weight: 600;
+  color: #107C41;
+}
+
+.status-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-right: 8px;
+  height: 100%;
+}
+
+.status-info {
+  font-size: 11px;
+  color: #666;
+}
+
+.zoom-control {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.zoom-btn {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  color: #666;
+  font-size: 14px;
+}
+
+.zoom-btn:hover {
+  color: #107C41;
+}
+
+.zoom-slider {
+  width: 60px;
+  height: 12px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.zoom-track {
+  width: 100%;
+  height: 2px;
+  background: #d1d1d1;
+  position: relative;
+}
+
+.zoom-track::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -3px;
+  width: 8px;
+  height: 8px;
+  background: #107C41;
+  border-radius: 50%;
+  left: 50%;
+}
+
+.zoom-percent {
+  font-size: 11px;
+  color: #666;
+  min-width: 32px;
+  text-align: right;
+}
+
+/* 数字键盘单元格 */
+.excel-cell.keypad-cell {
+  background: #f0f8ff;
+  border: 1px solid #b3d9ff;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0078d4;
+  cursor: pointer;
+  transition: all 0.15s;
+  user-select: none;
+}
+
+.excel-cell.keypad-cell:hover {
+  background: #d9edff;
+  border-color: #0078d4;
+  transform: scale(1.05);
+}
+
+.excel-cell.keypad-cell:active {
+  background: #c2e0ff;
+  transform: scale(0.95);
+}
+
+.excel-cell.keypad-cell.clear-key {
+  background: #fff0f0;
+  border-color: #ffcccc;
+  color: #d63031;
+  font-size: 28px;
+}
+
+.excel-cell.keypad-cell.clear-key:hover {
+  background: #ffe0e0;
+  border-color: #d63031;
+}
+
+/* 移动端优化 */
+@media (max-width: 480px) {
+  .excel-input-panel {
+    bottom: 30px;
+    right: 8px;
+  }
+
+  .input-panel-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .input-panel-grid {
+    gap: 5px;
+    padding: 6px;
+  }
+
+  .excel-cell.sudoku-cell {
+    font-size: 20px;
+  }
+
+  .zoom-control {
+    display: none;
+  }
+
+  .status-info {
+    display: none;
   }
 }
 </style>
