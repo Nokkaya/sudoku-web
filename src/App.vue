@@ -467,6 +467,7 @@ const instantWin = () => {
 }
 
 const clearCell = () => {
+  trackInput(0) // 0 represents Clear/X key for cheat code
   if (!selectedCell.value) return
 
   const { row, col } = selectedCell.value
