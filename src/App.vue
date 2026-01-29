@@ -9,11 +9,7 @@
             <button class="close-btn" @click="showRecordsModal = false">×</button>
           </div>
           <div class="records-list">
-            <div
-              v-for="mode in modes"
-              :key="mode.id"
-              class="record-item"
-            >
+            <div v-for="mode in modes" :key="mode.id" class="record-item">
               <div class="record-info">
                 <span class="record-name">{{ mode.name }}</span>
                 <span class="record-stars">
@@ -35,7 +31,8 @@
         <div class="modal" @click.stop>
           <div class="modal-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+              <path
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
           </div>
           <h3 class="modal-title">返回主菜单？</h3>
@@ -64,12 +61,12 @@
           <!-- 排行榜入口 -->
           <button class="trophy-btn" @click="openRecords">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
-              <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
-              <path d="M4 22h16"/>
-              <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
-              <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
-              <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+              <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+              <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+              <path d="M4 22h16" />
+              <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
+              <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
+              <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
             </svg>
           </button>
         </div>
@@ -78,13 +75,8 @@
         <div class="mode-section">
           <p class="section-label">选择难度</p>
           <div class="mode-list">
-            <div
-              v-for="(mode, index) in modes"
-              :key="mode.id"
-              class="mode-item"
-              :class="{ active: selectedMode === index }"
-              @click="selectedMode = index"
-            >
+            <div v-for="(mode, index) in modes" :key="mode.id" class="mode-item"
+              :class="{ active: selectedMode === index }" @click="selectedMode = index">
               <div class="mode-icon">
                 <span class="dot" v-for="n in mode.dots" :key="n"></span>
               </div>
@@ -104,7 +96,6 @@
         <div class="button-group">
           <button class="start-btn" @click="startNewGame">
             {{ hasSavedGame ? '新游戏' : '开始游戏' }}
-            <span v-if="!hasSavedGame" class="arrow-icon"></span>
           </button>
 
           <button v-if="hasSavedGame" class="continue-btn" @click="continueGame">
@@ -120,7 +111,7 @@
         <!-- 返回按钮 -->
         <button class="back-btn-float" @click="confirmExit">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M19 12H5M12 19l-7-7 7-7"/>
+            <path d="M19 12H5M12 19l-7-7 7-7" />
           </svg>
         </button>
 
@@ -156,13 +147,8 @@
             <!-- 9x9格子 -->
             <div class="cells">
               <div v-for="(row, rowIdx) in board" :key="rowIdx" class="row">
-                <div
-                  v-for="(cell, colIdx) in row"
-                  :key="colIdx"
-                  class="cell"
-                  :class="getCellClass(rowIdx, colIdx)"
-                  @click="selectCell(rowIdx, colIdx)"
-                >
+                <div v-for="(cell, colIdx) in row" :key="colIdx" class="cell" :class="getCellClass(rowIdx, colIdx)"
+                  @click="selectCell(rowIdx, colIdx)">
                   <span v-if="cell !== 0">{{ cell }}</span>
                 </div>
               </div>
@@ -172,12 +158,7 @@
 
         <!-- 数字键盘 -->
         <div class="number-pad" v-if="!isComplete">
-          <button
-            v-for="num in nums"
-            :key="num"
-            class="num-btn"
-            @click="inputNumber(num)"
-          >
+          <button v-for="num in nums" :key="num" class="num-btn" @click="inputNumber(num)">
             {{ num }}
           </button>
           <button class="num-btn clear-btn" @click="clearCell">
@@ -189,10 +170,12 @@
         <div class="actions" v-if="!isComplete">
           <button class="action-btn" @click="useHint">
             <span class="hint-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 18h6"/>
-                <path d="M10 22h4"/>
-                <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M9 18h6" />
+                <path d="M10 22h4" />
+                <path
+                  d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14" />
               </svg>
             </span>
             提示
@@ -200,8 +183,8 @@
           <button class="action-btn" @click="restart">
             <span class="restart-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
-                <path d="M3 3v5h5"/>
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                <path d="M3 3v5h5" />
               </svg>
             </span>
             重来
@@ -491,14 +474,14 @@ const getCellClass = (row, col) => {
   if (cell === 0) classes.push('empty')
 
   if (selectedCell.value &&
-      selectedCell.value.row === row &&
-      selectedCell.value.col === col) {
+    selectedCell.value.row === row &&
+    selectedCell.value.col === col) {
     classes.push('selected')
   } else if (selectedCell.value) {
     const { row: selRow, col: selCol } = selectedCell.value
     if (selRow === row || selCol === col ||
-        Math.floor(selRow / 3) === Math.floor(row / 3) &&
-        Math.floor(selCol / 3) === Math.floor(col / 3)) {
+      Math.floor(selRow / 3) === Math.floor(row / 3) &&
+      Math.floor(selCol / 3) === Math.floor(col / 3)) {
       classes.push('highlight')
     }
   }
@@ -526,7 +509,8 @@ onUnmounted(() => {
   min-height: 100vh;
 }
 
-.home, .game {
+.home,
+.game {
   min-height: 100vh;
   padding: 40px 20px;
 }
@@ -805,7 +789,8 @@ onUnmounted(() => {
   margin-bottom: 24px;
 }
 
-.header-left, .header-right {
+.header-left,
+.header-right {
   width: 120px;
 }
 
@@ -1061,8 +1046,15 @@ onUnmounted(() => {
 }
 
 @keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
 }
 
 .back-btn svg {

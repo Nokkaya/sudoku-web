@@ -9,7 +9,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "canvas": "^3.2.1",
     "vue": "^3.4.0"
   },
   "devDependencies": {
