@@ -45,6 +45,26 @@
       </div>
     </Transition>
 
+    <!-- 挂作弊菜单 -->
+    <Transition name="fade">
+      <div v-if="showCheatMenu" class="modal-overlay" @click="showCheatMenu = false">
+        <div class="modal cheat-modal" @click.stop>
+          <div class="modal-header">
+            <h3 class="modal-title" style="color: #d63031">DEV MODE</h3>
+            <button class="close-btn" @click="showCheatMenu = false">×</button>
+          </div>
+          <div class="cheat-actions">
+            <button class="cheat-btn" @click="toggleInfiniteHints">
+              {{ infiniteHintsEnabled ? '关闭无限提示' : '开启无限提示' }}
+            </button>
+            <button class="cheat-btn" @click="instantWin">
+              一键填充 (通关)
+            </button>
+          </div>
+        </div>
+      </div>
+    </Transition>
+
     <!-- 首页视图 -->
     <div v-if="!gameStarted" class="home">
       <div class="container">
@@ -248,6 +268,12 @@ const records = ref({})
 const showRecordsModal = ref(false)
 const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
+// 作弊系统
+const CHEAT_CODE = '1145141919810'
+const inputSequence = ref([]) // Stores { val: number, time: number }
+const showCheatMenu = ref(false)
+const infiniteHintsEnabled = ref(false)
+
 // 计算属性
 const currentModeName = computed(() => modes[selectedMode.value].name)
 const currentDifficulty = computed(() => modes[selectedMode.value].holes)
@@ -381,6 +407,9 @@ const selectCell = (row, col) => {
 }
 
 const inputNumber = (num) => {
+  // 即使没选中格子，也记录输入用于检测作弊码
+  trackInput(num)
+
   if (!selectedCell.value) {
     return
   }
@@ -388,6 +417,53 @@ const inputNumber = (num) => {
   const { row, col } = selectedCell.value
   board.value[row][col] = num
   checkComplete()
+}
+
+const trackInput = (num) => {
+  const now = Date.now()
+  inputSequence.value.push({ val: num, time: now })
+
+  // 保持队列长度不超过作弊码长度
+  if (inputSequence.value.length > CHEAT_CODE.length) {
+    inputSequence.value.shift()
+  }
+
+  // 检测作弊码
+  if (inputSequence.value.length === CHEAT_CODE.length) {
+    const sequenceStr = inputSequence.value.map(i => i.val).join('')
+    if (sequenceStr === CHEAT_CODE) {
+      const startTime = inputSequence.value[0].time
+      // 10秒内
+      if (now - startTime <= 10000) {
+        showCheatMenu.value = true
+        // 清空队列防止重复触发
+        inputSequence.value = []
+      }
+    }
+  }
+}
+
+// 作弊功能
+const toggleInfiniteHints = () => {
+  infiniteHintsEnabled.value = !infiniteHintsEnabled.value
+  if (infiniteHintsEnabled.value) {
+    hints.value = 999
+  } else {
+    hints.value = 3
+  }
+  showCheatMenu.value = false
+}
+
+const instantWin = () => {
+  // 填充所有格子为解答
+  if (!solution.value || solution.value.length === 0) return
+
+  // 深度复制 solution 到 board
+  board.value = JSON.parse(JSON.stringify(solution.value))
+
+  // 触发完成检查
+  checkComplete()
+  showCheatMenu.value = false
 }
 
 const clearCell = () => {
@@ -404,7 +480,11 @@ const useHint = () => {
   if (!hint) return
 
   board.value[hint.row][hint.col] = hint.value
-  hints.value--
+
+  // 提示消耗
+  if (!infiniteHintsEnabled.value) {
+    hints.value--
+  }
 
   if (!selectedCell.value) {
     selectedCell.value = { row: hint.row, col: hint.col }
@@ -1033,6 +1113,32 @@ onUnmounted(() => {
   font-size: 16px;
 }
 
+/* 作弊菜单 */
+.cheat-modal {
+  border: 4px solid #d63031;
+}
+
+.cheat-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cheat-btn {
+  padding: 16px;
+  background: #2d3436;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cheat-btn:hover {
+  background: #d63031;
+}
+
 .new-record-badge {
   display: inline-block;
   background: #ffeaa7;
@@ -1166,7 +1272,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 600;
   color: #faf9f7;
   border-right: 1px solid #4a5568;
@@ -1427,7 +1533,7 @@ onUnmounted(() => {
   .cell {
     width: 38px;
     height: 38px;
-    font-size: 20px;
+    font-size: 24px;
   }
 
   .num-btn {
