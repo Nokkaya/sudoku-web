@@ -641,82 +641,157 @@ onUnmounted(() => {
 
 <style>
 :root {
-  /* 默认主题 (简洁清新 - Vibrant) */
+  /* 基础颜色 - 默认主题 (简洁清新) */
   --bg-primary: #f0f2f5;
   --bg-card: #ffffff;
+  --bg-input: #f1f2f6;
+  /* 次级背景，用于输入框、次级按钮 */
+
   --text-main: #2d3436;
   --text-scnd: #636e72;
+  --text-tertiary: #b2bec3;
+  /* 弱提示文本、未选中圆点 */
+  --text-inverse: #ffffff;
+  /* 深色背景下的文字 */
+
   --accent: #00b894;
   --accent-hover: #00a085;
   --border: #dfe6e9;
+
+  /* 状态颜色 */
+  --danger-color: #d63031;
+  --warning-color: #fdcb6e;
+  --success-color: #00b894;
+
+  /* 游戏元素 */
   --cell-bg: #2d3436;
   --cell-text: #faf9f7;
   --cell-original: rgba(250, 249, 247, 0.4);
   --cell-border: #4a5568;
   --cell-border-thick: #faf9f7;
   --cell-highlight: rgba(250, 249, 247, 0.08);
+
+  /* 按钮与UI */
   --btn-primary-bg: #2d3436;
   --btn-primary-text: #ffffff;
+
+  /* 视觉效果 */
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.18);
+  --modal-overlay: rgba(0, 0, 0, 0.6);
+
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 /* 马卡龙主题 */
 .theme-macaron {
   --bg-primary: #fff0f5;
   --bg-card: #ffffff;
+  --bg-input: #fff5f8;
+
   --text-main: #6c5ce7;
   --text-scnd: #a29bfe;
+  --text-tertiary: #dfe6e9;
+  --text-inverse: #ffffff;
+
   --accent: #fdcb6e;
   --accent-hover: #e1b12c;
   --border: #ffeaa7;
+
   --cell-bg: #74b9ff;
   --cell-text: #ffffff;
   --cell-original: rgba(255, 255, 255, 0.6);
   --cell-border: #a29bfe;
   --cell-border-thick: #ffffff;
   --cell-highlight: rgba(255, 255, 255, 0.2);
+
   --btn-primary-bg: #fdcb6e;
   --btn-primary-text: #6c5ce7;
+
+  --shadow-sm: 0 4px 12px rgba(108, 92, 231, 0.1);
+  --shadow-md: 0 8px 24px rgba(108, 92, 231, 0.15);
+  --shadow-lg: 0 16px 48px rgba(108, 92, 231, 0.2);
+  --modal-overlay: rgba(108, 92, 231, 0.4);
 }
 
 /* 暗黑主题 */
 .theme-dark {
   --bg-primary: #121212;
   --bg-card: #1e1e1e;
+  --bg-input: #2d2d2d;
+
   --text-main: #e0e0e0;
   --text-scnd: #a0a0a0;
+  --text-tertiary: #636e72;
+  --text-inverse: #121212;
+
   --accent: #00b894;
   --accent-hover: #00a085;
   --border: #333333;
+
   --cell-bg: #000000;
   --cell-text: #e0e0e0;
   --cell-original: #888888;
   --cell-border: #333333;
   --cell-border-thick: #666666;
   --cell-highlight: #222222;
+
   --btn-primary-bg: #00b894;
   --btn-primary-text: #ffffff;
+
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.6);
+  --modal-overlay: rgba(0, 0, 0, 0.8);
 }
 
 /* 魔域 (Stealth) 主题 - Excel/Terminal 风格 */
 .theme-stealth {
   --bg-primary: #f5f5f5;
   --bg-card: #ffffff;
+  --bg-input: #e0e0e0;
+
   --text-main: #333333;
   --text-scnd: #666666;
-  --accent: #7f8c8d;
+  --text-tertiary: #999999;
+  --text-inverse: #ffffff;
+
+  --accent: #636e72;
   /* 灰色 */
-  --accent-hover: #95a5a6;
-  --border: #bdc3c7;
+  --accent-hover: #2d3436;
+  --border: #b2bec3;
+
   --cell-bg: #ffffff;
-  /* 白底黑字 */
   --cell-text: #000000;
-  --cell-original: #0000ff;
-  /* 蓝色表示原有 */
-  --cell-border: #bdc3c7;
-  --cell-border-thick: #000000;
+  --cell-original: #0984e3;
+  /* 蓝色链接色 */
+  --cell-border: #dfe6e9;
+  --cell-border-thick: #2d3436;
   --cell-highlight: #ecf0f1;
-  --btn-primary-bg: #ecf0f1;
-  --btn-primary-text: #000000;
+
+  --btn-primary-bg: #636e72;
+  --btn-primary-text: #ffffff;
+
+  /* 移除阴影和圆角 */
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+  --modal-overlay: rgba(255, 255, 255, 0.1);
+  /* 几乎不可见 */
+
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+
+  --font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  /* 代码风格 */
 }
 </style>
 
@@ -725,6 +800,7 @@ onUnmounted(() => {
   min-height: 100vh;
   background: var(--bg-primary);
   color: var(--text-main);
+  font-family: var(--font-family);
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -761,11 +837,11 @@ onUnmounted(() => {
   width: 120px;
   height: 120px;
   background: var(--btn-primary-bg);
-  border-radius: 32px;
+  border-radius: var(--radius-xl);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 16rpx 48rpx rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-lg);
   transition: background 0.3s;
 }
 
@@ -806,7 +882,7 @@ onUnmounted(() => {
 .menu-btn.primary {
   background: var(--btn-primary-bg);
   color: var(--btn-primary-text);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-btn);
 }
 
 .menu-btn.primary:hover {
@@ -870,7 +946,7 @@ onUnmounted(() => {
   align-items: center;
   padding: 12px;
   border: 2px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   transition: all 0.2s;
   background: var(--bg-card);
@@ -895,7 +971,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-sm);
   position: relative;
   overflow: hidden;
 }
@@ -904,7 +980,7 @@ onUnmounted(() => {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-sm);
 }
 
 .theme-name {
@@ -1044,14 +1120,14 @@ onUnmounted(() => {
   justify-content: center;
   flex: 1;
   padding: 16px 20px;
-  background: #2d3436;
-  color: #ffffff;
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
   border: none;
-  border-radius: 24px;
+  border-radius: var(--radius-lg);
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 4px 16rpx rgba(45, 52, 54, 0.25);
+  box-shadow: var(--shadow-md);
   transition: all 0.2s ease;
 }
 
@@ -1167,9 +1243,9 @@ onUnmounted(() => {
   height: 48px;
   background: var(--bg-card);
   border: none;
-  border-radius: 16px;
+  border-radius: var(--radius-md);
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-sm);
   transition: all 0.2s ease;
 }
 
@@ -1191,7 +1267,7 @@ onUnmounted(() => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: var(--modal-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1201,19 +1277,19 @@ onUnmounted(() => {
 
 .modal {
   background: var(--bg-card);
-  border-radius: 24px;
+  border-radius: var(--radius-lg);
   padding: 32px;
   max-width: 360px;
   width: 100%;
   text-align: center;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-lg);
 }
 
 .modal-icon {
   width: 64px;
   height: 64px;
   margin: 0 auto 20px;
-  background: #ffeaa7;
+  background: var(--bg-input);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1307,7 +1383,7 @@ onUnmounted(() => {
   background: none;
   border: none;
   font-size: 24px;
-  color: #b2bec3;
+  color: var(--text-tertiary);
   cursor: pointer;
   padding: 4px;
   line-height: 1;
@@ -1324,8 +1400,8 @@ onUnmounted(() => {
   justify-content: space-between;
   align-items: center;
   padding: 12px 16px;
-  background: #f1f2f6;
-  border-radius: 12px;
+  background: var(--bg-input);
+  border-radius: var(--radius-sm);
 }
 
 .record-info {
@@ -1349,7 +1425,7 @@ onUnmounted(() => {
 .record-stars .dot {
   width: 4px;
   height: 4px;
-  background: #b2bec3;
+  background: var(--text-tertiary);
   border-radius: 50%;
 }
 
@@ -1366,7 +1442,7 @@ onUnmounted(() => {
 
 /* 作弊菜单 */
 .cheat-modal {
-  border: 4px solid #d63031;
+  border: 4px solid var(--danger-color);
 }
 
 .cheat-actions {
@@ -1377,29 +1453,30 @@ onUnmounted(() => {
 
 .cheat-btn {
   padding: 16px;
-  background: #2d3436;
-  color: #fff;
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
   border: none;
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .cheat-btn:hover {
-  background: #d63031;
+  background: var(--danger-color);
 }
 
 .new-record-badge {
   display: inline-block;
-  background: #ffeaa7;
-  color: #d63031;
+  background: var(--warning-color);
+  color: #ffffff;
   font-weight: 700;
   font-size: 14px;
   padding: 6px 12px;
   border-radius: 20px;
   margin-bottom: 24px;
   animation: bounce 1s infinite;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 @keyframes bounce {
@@ -1429,7 +1506,7 @@ onUnmounted(() => {
   align-items: center;
   gap: 8px;
   padding: 12px 20px;
-  background: #2d3436;
+  background: var(--btn-primary-bg);
   border-radius: 16px;
 }
 
@@ -1480,7 +1557,7 @@ onUnmounted(() => {
   background: var(--cell-bg);
   border-radius: 20px;
   padding: 8px;
-  box-shadow: 0 16px 60px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-lg);
 }
 
 .grid-borders {
@@ -1590,7 +1667,7 @@ onUnmounted(() => {
   background: var(--bg-card);
   border-radius: 20px;
   margin-bottom: 20px;
-  box-shadow: 0 8px 32rpx rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-md);
 }
 
 .num-btn {
@@ -1719,7 +1796,7 @@ onUnmounted(() => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(45, 52, 54, 0.85);
+  background: var(--modal-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1729,10 +1806,10 @@ onUnmounted(() => {
 .completed-modal {
   background: var(--bg-card);
   padding: 48px 40px;
-  border-radius: 24px;
+  border-radius: var(--radius-lg);
   text-align: center;
   max-width: 400px;
-  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-xl);
 }
 
 .completed-title {
@@ -1779,12 +1856,12 @@ onUnmounted(() => {
   padding: 18px;
   background: var(--btn-primary-bg);
   border: none;
-  border-radius: 32px;
+  border-radius: var(--radius-xl);
   font-size: 18px;
   font-weight: 600;
   color: var(--btn-primary-text);
   cursor: pointer;
-  box-shadow: 0 8px 24rpx rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-btn);
 }
 
 /* 响应式 */
