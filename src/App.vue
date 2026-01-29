@@ -679,7 +679,10 @@ onUnmounted(() => {
   --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.08);
   --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.12);
   --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.18);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.18);
   --modal-overlay: rgba(0, 0, 0, 0.6);
+  --bg-image: none;
+  --bg-size: auto;
 
   --radius-sm: 12px;
   --radius-md: 16px;
@@ -798,7 +801,9 @@ onUnmounted(() => {
 <style scoped>
 .app {
   min-height: 100vh;
-  background: var(--bg-primary);
+  background-color: var(--bg-primary);
+  background-image: var(--bg-image);
+  background-size: var(--bg-size);
   color: var(--text-main);
   font-family: var(--font-family);
   transition: background-color 0.3s ease, color 0.3s ease;
