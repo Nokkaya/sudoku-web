@@ -1,0 +1,3 @@
+[submodule "miniprogram"]
+	path = miniprogram
+	url = https://github.com/Nokkaya/sudoku-wechat.git
