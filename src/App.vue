@@ -301,6 +301,30 @@
             </div>
           </div>
         </div>
+
+        <!-- Excel模式通关弹窗 -->
+        <div class="completed-overlay" v-if="isComplete">
+          <div class="completed-modal">
+            <h2 class="completed-title">恭喜通关</h2>
+            <p class="completed-subtitle">你完成了数独挑战！</p>
+
+            <div v-if="isNewRecord" class="new-record-badge">
+              <span>🏆 新纪录!</span>
+            </div>
+
+            <div class="completed-stats">
+              <div class="stat-item">
+                <span class="stat-value">{{ formatTime(timer) }}</span>
+                <span class="stat-label">用时</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value">{{ hints }}</span>
+                <span class="stat-label">剩余提示</span>
+              </div>
+            </div>
+            <button class="completed-btn" @click="restart">再玩一局</button>
+          </div>
+        </div>
       </div>
 
       <div class="container" :class="{ 'excel-hidden': isExcelMode }">
