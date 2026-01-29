@@ -3,10 +3,23 @@
 A beautiful and elegant Sudoku game built with Vue 3 + Vite.
 
 ![Vue](https://img.shields.io/badge/Vue-3.4-4FC08D?style=flat-square&logo=vue.js)
-![Vite](https://img.shields.io/badge/Vite-6.0-646CFF?style=flat-square&logo=vite)
+![Vite](https://img.shields.io/badge/Vite-7.3.1-646CFF?style=flat-square&logo=vite)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
 
 **🌐 Play Online: [https://nokkaya.github.io/sudoku-web/](https://nokkaya.github.io/sudoku-web/)**
+
+---
+
+## 📱 WeChat Miniprogram
+
+This project now includes the source code for the WeChat Miniprogram version, perfectly replicating the Web UI and experience.
+
+- **Perfect Replicate** - 1:1 restoration of the beautiful Web UI
+- **Native Experience** - Fast startup and smooth interaction
+- **Grid Keypad** - Optimized number input experience
+- **State Saving** - Auto-save progress on exit
+
+Source code is located in the `miniprogram/` directory. Import it into WeChat Developer Tools to run.
 
 ---
 
@@ -56,6 +69,13 @@ sudoku-web/
 ├── index.html          # Entry HTML
 ├── package.json        # Project configuration
 ├── vite.config.js      # Vite configuration
+├── miniprogram/        # Miniprogram Source [NEW]
+│   ├── components/     # Components
+│   ├── pages/          # Pages
+│   ├── utils/          # Utilities
+│   ├── app.js          # App Logic
+│   ├── app.json        # App Config
+│   └── app.wxss        # Global Styles
 └── src/
     ├── main.js         # Application entry point
     ├── App.vue         # Main component (all logic & styles)
@@ -73,6 +93,7 @@ sudoku-web/
 - **Composition API** - Modern component logic organization
 - **Vite 6** - Next-generation frontend build tool
 - **CSS3** - Pure CSS, no framework dependencies
+- **WeChat Miniprogram** - Native Miniprogram development (WXML/WXSS/JS/WXS)
 - **GitHub Pages** - Free static site hosting
 
 ---

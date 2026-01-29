@@ -1,5 +1,34 @@
 <template>
   <div class="app">
+    <!-- 排行榜弹窗 -->
+    <Transition name="fade">
+      <div v-if="showRecordsModal" class="modal-overlay" @click="showRecordsModal = false">
+        <div class="modal records-modal" @click.stop>
+          <div class="modal-header">
+            <h3 class="modal-title">最佳记录</h3>
+            <button class="close-btn" @click="showRecordsModal = false">×</button>
+          </div>
+          <div class="records-list">
+            <div
+              v-for="mode in modes"
+              :key="mode.id"
+              class="record-item"
+            >
+              <div class="record-info">
+                <span class="record-name">{{ mode.name }}</span>
+                <span class="record-stars">
+                  <span class="dot" v-for="n in mode.dots" :key="n" :class="{ filled: true }"></span>
+                </span>
+              </div>
+              <span class="record-time">
+                {{ formatRecordTime(records[mode.id]) }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Transition>
+
     <!-- 自定义确认弹窗 -->
     <Transition name="fade">
       <div v-if="showExitConfirm" class="modal-overlay" @click="showExitConfirm = false">
@@ -10,7 +39,7 @@
             </svg>
           </div>
           <h3 class="modal-title">返回主菜单？</h3>
-          <p class="modal-text">当前游戏进度将丢失，确定要返回吗？</p>
+          <p class="modal-text">游戏进度已自动保存，确定要返回吗？</p>
           <div class="modal-actions">
             <button class="modal-btn modal-btn-secondary" @click="showExitConfirm = false">取消</button>
             <button class="modal-btn modal-btn-primary" @click="exitToMenu">确定</button>
@@ -31,14 +60,26 @@
             <div class="logo-accent"></div>
           </div>
           <h1 class="title">SUDOKU</h1>
+
+          <!-- 排行榜入口 -->
+          <button class="trophy-btn" @click="openRecords">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+              <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+              <path d="M4 22h16"/>
+              <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
+              <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
+              <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+            </svg>
+          </button>
         </div>
 
         <!-- 难度选择 -->
         <div class="mode-section">
           <p class="section-label">选择难度</p>
           <div class="mode-list">
-            <div 
-              v-for="(mode, index) in modes" 
+            <div
+              v-for="(mode, index) in modes"
               :key="mode.id"
               class="mode-item"
               :class="{ active: selectedMode === index }"
@@ -59,10 +100,17 @@
         </div>
 
         <!-- 开始按钮 -->
-        <button class="start-btn" @click="startGame">
-          开始游戏
-          <span class="arrow-icon"></span>
-        </button>
+        <!-- 按钮组 -->
+        <div class="button-group">
+          <button class="start-btn" @click="startNewGame">
+            {{ hasSavedGame ? '新游戏' : '开始游戏' }}
+            <span v-if="!hasSavedGame" class="arrow-icon"></span>
+          </button>
+
+          <button v-if="hasSavedGame" class="continue-btn" @click="continueGame">
+            继续游戏
+          </button>
+        </div>
       </div>
     </div>
 
@@ -75,19 +123,19 @@
             <path d="M19 12H5M12 19l-7-7 7-7"/>
           </svg>
         </button>
-        
+
         <!-- 顶部信息栏 -->
         <div class="header">
           <div class="header-left">
             <span class="mode-tag">{{ currentModeName }}</span>
           </div>
-          
+
           <div class="header-center">
             <div class="timer-wrapper">
               <span class="timer">{{ formatTime(timer) }}</span>
             </div>
           </div>
-          
+
           <div class="header-right">
             <span class="hint-label">提示</span>
             <span class="hint-count">{{ hints }}</span>
@@ -104,12 +152,12 @@
               <div class="border-v" style="left: 33.33%"></div>
               <div class="border-v" style="left: 66.66%"></div>
             </div>
-            
+
             <!-- 9x9格子 -->
             <div class="cells">
               <div v-for="(row, rowIdx) in board" :key="rowIdx" class="row">
-                <div 
-                  v-for="(cell, colIdx) in row" 
+                <div
+                  v-for="(cell, colIdx) in row"
                   :key="colIdx"
                   class="cell"
                   :class="getCellClass(rowIdx, colIdx)"
@@ -124,8 +172,8 @@
 
         <!-- 数字键盘 -->
         <div class="number-pad" v-if="!isComplete">
-          <button 
-            v-for="num in nums" 
+          <button
+            v-for="num in nums"
             :key="num"
             class="num-btn"
             @click="inputNumber(num)"
@@ -165,6 +213,11 @@
           <div class="completed-modal">
             <h2 class="completed-title">恭喜通关</h2>
             <p class="completed-subtitle">你完成了数独挑战！</p>
+
+            <div v-if="isNewRecord" class="new-record-badge">
+              <span>🏆 新纪录!</span>
+            </div>
+
             <div class="completed-stats">
               <div class="stat-item">
                 <span class="stat-value">{{ formatTime(timer) }}</span>
@@ -184,7 +237,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import sudoku from './utils/sudoku.js'
 
 // 模式定义
@@ -198,6 +251,7 @@ const modes = [
 
 // 响应式状态
 const gameStarted = ref(false)
+const hasSavedGame = ref(false)
 const selectedMode = ref(2)
 const board = ref([])
 const originalBoard = ref([])
@@ -206,6 +260,9 @@ const selectedCell = ref(null)
 const timer = ref(0)
 const hints = ref(3)
 const isComplete = ref(false)
+const isNewRecord = ref(false)
+const records = ref({})
+const showRecordsModal = ref(false)
 const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 // 计算属性
@@ -216,7 +273,7 @@ let timerInterval = null
 
 // 计时器
 const startTimer = () => {
-  timer.value = 0
+  stopTimer() // Prevent multiple intervals
   timerInterval = setInterval(() => {
     timer.value++
   }, 1000)
@@ -243,15 +300,75 @@ const initGame = () => {
   solution.value = sudoku.solution
   selectedCell.value = null
   isComplete.value = false
+  isNewRecord.value = false
   hints.value = 3
   stopTimer()
   startTimer()
 }
 
-const startGame = () => {
+const startNewGame = () => {
   initGame()
   gameStarted.value = true
 }
+
+const continueGame = () => {
+  loadSavedGame()
+  gameStarted.value = true
+}
+
+// 存档功能
+const saveGame = () => {
+  if (isComplete.value) {
+    localStorage.removeItem('sudoku_web_save')
+    hasSavedGame.value = false
+    return
+  }
+
+  const gameState = {
+    board: board.value,
+    originalBoard: originalBoard.value,
+    // solution: solution.value, // Solution not stored in reactive state to avoid lag, but needed for restore?
+    // Actually Miniprogram logic separated it. For Web, saving it is fine or we recreate it?
+    // Miniprogram saved it.
+    solution: solution.value,
+    difficulty: currentDifficulty.value,
+    modeId: modes[selectedMode.value].id,
+    selectedModeIndex: selectedMode.value,
+    timer: timer.value,
+    hints: hints.value
+  }
+  localStorage.setItem('sudoku_web_save', JSON.stringify(gameState))
+  hasSavedGame.value = true
+}
+
+const loadSavedGame = () => {
+  const saved = localStorage.getItem('sudoku_web_save')
+  if (saved) {
+    const state = JSON.parse(saved)
+    board.value = state.board
+    originalBoard.value = state.originalBoard
+    solution.value = state.solution
+    selectedMode.value = state.selectedModeIndex || 2
+    timer.value = state.timer
+    hints.value = state.hints
+    // Resume timer handled by gameStarted watcher or manual start?
+    // gameStarted is set to true in continueGame
+    startTimer()
+  }
+}
+
+// 自动保存
+watch([board, timer, hints], () => {
+  if (gameStarted.value && !isComplete.value) {
+    saveGame()
+  }
+}, { deep: true })
+
+onMounted(() => {
+  const saved = localStorage.getItem('sudoku_web_save')
+  hasSavedGame.value = !!saved
+  loadRecords()
+})
 
 const showExitConfirm = ref(false)
 
@@ -260,11 +377,17 @@ const confirmExit = () => {
 }
 
 const exitToMenu = () => {
+  saveGame() // Save on exit
   showExitConfirm.value = false
   gameStarted.value = false
   timer.value = 0
   hints.value = 3
   selectedCell.value = null
+  stopTimer()
+
+  // Refresh save state
+  const saved = localStorage.getItem('sudoku_web_save')
+  hasSavedGame.value = !!saved
 }
 
 const selectCell = (row, col) => {
@@ -278,7 +401,7 @@ const inputNumber = (num) => {
   if (!selectedCell.value) {
     return
   }
-  
+
   const { row, col } = selectedCell.value
   board.value[row][col] = num
   checkComplete()
@@ -286,24 +409,24 @@ const inputNumber = (num) => {
 
 const clearCell = () => {
   if (!selectedCell.value) return
-  
+
   const { row, col } = selectedCell.value
   board.value[row][col] = 0
 }
 
 const useHint = () => {
   if (hints.value <= 0) return
-  
+
   const hint = sudoku.getHint(board.value)
   if (!hint) return
-  
+
   board.value[hint.row][hint.col] = hint.value
   hints.value--
-  
+
   if (!selectedCell.value) {
     selectedCell.value = { row: hint.row, col: hint.col }
   }
-  
+
   checkComplete()
 }
 
@@ -316,36 +439,70 @@ const checkComplete = () => {
       }
     }
   }
-  
+
   // 验证答案
   if (sudoku.checkWin(board.value)) {
     stopTimer()
     isComplete.value = true
+    checkNewRecord()
   }
+}
+
+// 记录相关
+const loadRecords = () => {
+  const saved = localStorage.getItem('sudoku_records')
+  if (saved) {
+    try {
+      records.value = JSON.parse(saved)
+    } catch (e) {
+      records.value = {}
+    }
+  }
+}
+
+const formatRecordTime = (time) => {
+  if (time === undefined || time === null) return '--:--'
+  return formatTime(time)
+}
+
+const checkNewRecord = () => {
+  const modeId = modes[selectedMode.value].id
+  const currentBest = records.value[modeId]
+
+  if (currentBest === undefined || timer.value < currentBest) {
+    records.value[modeId] = timer.value
+    localStorage.setItem('sudoku_records', JSON.stringify(records.value))
+    isNewRecord.value = true
+  }
+}
+
+const openRecords = () => {
+  loadRecords()
+  showRecordsModal.value = true
 }
 
 const getCellClass = (row, col) => {
   const classes = []
   const cell = board.value[row][col]
   const original = originalBoard.value[row][col]
-  
+
   if (original !== 0) classes.push('original')
   if (cell !== 0) classes.push('filled')
   if (cell === 0) classes.push('empty')
-  
-  if (selectedCell.value && 
-      selectedCell.value.row === row && 
+
+  if (selectedCell.value &&
+      selectedCell.value.row === row &&
       selectedCell.value.col === col) {
     classes.push('selected')
   } else if (selectedCell.value) {
     const { row: selRow, col: selCol } = selectedCell.value
-    if (selRow === row || selCol === col || 
+    if (selRow === row || selCol === col ||
         Math.floor(selRow / 3) === Math.floor(row / 3) &&
         Math.floor(selCol / 3) === Math.floor(col / 3)) {
       classes.push('highlight')
     }
   }
-  
+
   return classes.join(' ')
 }
 
@@ -387,6 +544,36 @@ onUnmounted(() => {
 .logo-section {
   text-align: center;
   margin-bottom: 32px;
+  position: relative;
+}
+
+.trophy-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border: none;
+  border-radius: 12px;
+  color: #fdcb6e;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(45, 52, 54, 0.1);
+  transition: all 0.2s ease;
+}
+
+.trophy-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+.trophy-btn:hover {
+  transform: scale(1.05);
+  background: #fff;
+  box-shadow: 0 6px 16px rgba(45, 52, 54, 0.15);
 }
 
 .logo-wrapper {
@@ -484,9 +671,10 @@ onUnmounted(() => {
   height: 6px;
   background: #b2bec3;
   border-radius: 50%;
+  transition: all 0.2s ease;
 }
 
-.mode-icon .dot.active {
+.mode-item.active .dot {
   background: #00b894;
 }
 
@@ -528,11 +716,18 @@ onUnmounted(() => {
   border-color: #00b894;
 }
 
+/* 按钮组样式 */
+.button-group {
+  display: flex;
+  gap: 16px;
+  margin-top: 32px;
+}
+
 .start-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  flex: 1;
   padding: 16px 20px;
   background: #2d3436;
   color: #ffffff;
@@ -547,6 +742,28 @@ onUnmounted(() => {
 
 .start-btn:hover {
   background: #1a1a1a;
+  transform: translateY(-2px);
+}
+
+.continue-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 16px 20px;
+  background: #ffffff;
+  color: #2d3436;
+  border: 2px solid #2d3436;
+  border-radius: 24px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.continue-btn:hover {
+  background: #f1f2f6;
+  transform: translateY(-2px);
 }
 
 .arrow-icon {
@@ -750,6 +967,102 @@ onUnmounted(() => {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+/* 排行榜弹窗 */
+.records-modal {
+  max-width: 320px;
+  padding: 24px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-header .modal-title {
+  margin: 0;
+  font-size: 20px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #b2bec3;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+}
+
+.records-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.record-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #f1f2f6;
+  border-radius: 12px;
+}
+
+.record-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.record-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2d3436;
+}
+
+.record-stars {
+  display: flex;
+  gap: 2px;
+}
+
+.record-stars .dot {
+  width: 4px;
+  height: 4px;
+  background: #b2bec3;
+  border-radius: 50%;
+}
+
+.record-stars .dot.filled {
+  background: #00b894;
+}
+
+.record-time {
+  font-family: 'SF Mono', monospace;
+  font-weight: 700;
+  color: #00b894;
+  font-size: 16px;
+}
+
+.new-record-badge {
+  display: inline-block;
+  background: #ffeaa7;
+  color: #d63031;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  margin-bottom: 24px;
+  animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
 }
 
 .back-btn svg {
@@ -1124,7 +1437,7 @@ onUnmounted(() => {
     height: 38px;
     font-size: 20px;
   }
-  
+
   .num-btn {
     width: 48px;
     height: 48px;

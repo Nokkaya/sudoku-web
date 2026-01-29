@@ -3,10 +3,23 @@
 一个精美优雅的数独网页游戏，使用 Vue 3 + Vite 构建。
 
 ![Vue](https://img.shields.io/badge/Vue-3.4-4FC08D?style=flat-square&logo=vue.js)
-![Vite](https://img.shields.io/badge/Vite-6.0-646CFF?style=flat-square&logo=vite)
+![Vite](https://img.shields.io/badge/Vite-7.3.1-646CFF?style=flat-square&logo=vite)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
 
 **🌐 在线游玩: [https://nokkaya.github.io/sudoku-web/](https://nokkaya.github.io/sudoku-web/)**
+
+---
+
+## 📱 微信小程序版
+
+本项目现已包含复刻版微信小程序源码，完美还原 Web 版 UI 与体验。
+
+- **完美复刻** - 1:1 还原 Web 版精美 UI
+- **原生体验** - 极速启动，流畅交互
+- **网格键盘** - 优化的数字输入体验
+- **状态保存** - 随时退出，自动保存进度
+
+源码位于 `miniprogram/` 目录下，使用微信开发者工具导入即可运行。
 
 ---
 
@@ -73,6 +86,7 @@ sudoku-web/
 - **Composition API** - 现代组件逻辑组织方式
 - **Vite 6** - 下一代前端构建工具
 - **CSS3** - 纯 CSS，无框架依赖
+- **WeChat Miniprogram** - 微信小程序原生开发 (WXML/WXSS/JS/WXS)
 - **GitHub Pages** - 免费静态网站托管
 
 ---

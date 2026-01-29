@@ -1,0 +1,5 @@
+/node_modules
+/dist
+/docs
+/miniprogram_npm
+/miniprogram_host
